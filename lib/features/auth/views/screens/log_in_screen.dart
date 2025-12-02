@@ -2,7 +2,9 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:sukun/core/responsive/responsive.dart';
+import 'package:sukun/core/theme/app_colors.dart';
+import 'package:sukun/core/theme/app_typography.dart';
 import 'package:sukun/features/auth/views/screens/sing_up_screen.dart';
 
 class LogInScreen extends StatelessWidget {
@@ -10,12 +12,13 @@ class LogInScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size.width;
+    final r = Responsive(context);
+    final textTheme = Theme.of(context).textTheme;
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: Image.asset('assets/sukun_logo.png', width: size * 0.3),
-        backgroundColor: Colors.white,
+        title: Image.asset('assets/sukun_logo.png', width: r.fieldWidth * 0.4),
+        backgroundColor: AppColors.white,
       ),
       body: DecoratedBox(
         decoration: BoxDecoration(
@@ -29,36 +32,40 @@ class LogInScreen extends StatelessWidget {
             width: 342,
             height: 564,
             decoration: BoxDecoration(
-              color: Colors.green,
+              color: AppColors.primaryGreen,
               borderRadius: BorderRadius.circular(15),
             ),
             child: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  SizedBox(height: size * 0.03),
+                  SizedBox(height: r.hLarge),
                   Text(
                     'LOGIN NOW',
-                    style: GoogleFonts.poppins(
-                      fontWeight: FontWeight.bold,
-                      fontSize: size * 0.045,
+                    style: textTheme.headlineMedium?.copyWith(
+                      fontSize: r.titleSize,
+                      color: AppColors.black,
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  SizedBox(height: size * 0.02),
+                  SizedBox(height: r.hMedium),
 
                   // ! Phone Number TextForm Field
                   SizedBox(
-                    width: size * 0.7,
+                    width: r.fieldWidth,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       spacing: 5,
                       children: [
                         Text('Phone'),
                         TextFormField(
+                          style: textTheme.bodyMedium,
                           onChanged: (value) {},
                           decoration: InputDecoration(
                             hintText: 'Enter Phone Number...',
+                            hintStyle: textTheme.bodySmall?.copyWith(
+                              color: AppColors.black,
+                            ),
                             filled: true,
                             fillColor: Colors.white,
                             border: OutlineInputBorder(
@@ -66,10 +73,13 @@ class LogInScreen extends StatelessWidget {
                                 Radius.circular(15),
                               ),
                             ),
-                            prefixIcon: Icon(CupertinoIcons.phone),
+                            prefixIcon: Icon(
+                              CupertinoIcons.phone,
+                              color: AppColors.black,
+                            ),
                           ),
                         ),
-                        SizedBox(height: size * 0.01),
+                        SizedBox(height: r.hSmall),
                         // ! Accept Check Box With Terms & condition
                         Row(
                           mainAxisSize: MainAxisSize.min,
@@ -89,13 +99,14 @@ class LogInScreen extends StatelessWidget {
                       ],
                     ),
                   ),
+                  SizedBox(height: r.hSmall),
 
-                  // ! Sign Up Button
+                  // ! Login Button
                   Container(
-                    width: size * 0.7,
-                    height: size * 0.09,
+                    width: r.fieldWidth,
+                    height: r.fieldHeight,
                     decoration: BoxDecoration(
-                      color: Color(0xFFFFC107),
+                      color: AppColors.accentYellow,
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Center(
@@ -105,27 +116,27 @@ class LogInScreen extends StatelessWidget {
                         children: [
                           Text(
                             'Log In',
-                            style: GoogleFonts.poppins(
-                              color: Colors.white,
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
+                            style: AppTypography.button.copyWith(
+                              fontSize: r.buttonTextSize,
                             ),
                           ),
                         ],
                       ),
                     ),
                   ),
-                  SizedBox(height: size * 0.02),
-                  dividerOr(),
-                  SizedBox(height: size * 0.02),
+                  SizedBox(height: r.hMedium),
+                  // ! Divider
+                  DividerOr(),
+                  SizedBox(height: r.hMedium),
                   GoogleAuth(ontap: () {}),
-                  SizedBox(height: size * 0.04),
+                  SizedBox(height: r.hLarge),
                   // ! If User Already Registered got to sing in
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
                         'If dont have account with \nus please register first',
+                        style: textTheme.bodyMedium,
                       ),
                       TextButton(
                         onPressed: () {
@@ -138,9 +149,8 @@ class LogInScreen extends StatelessWidget {
                         },
                         child: Text(
                           'Sign Up',
-                          style: GoogleFonts.openSans(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
+                          style: AppTypography.button.copyWith(
+                            color: AppColors.white,
                           ),
                         ),
                       ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sukun/core/theme/app_theme.dart';
 import 'package:sukun/features/auth/views/screens/sing_up_screen.dart';
 
 void main() {
@@ -10,6 +11,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(debugShowCheckedModeBanner: false, home: SingUpScreen());
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'SUKUN',
+      theme: AppTheme.light(),
+      darkTheme: AppTheme.dark(),
+      themeMode: ThemeMode.system,
+      home: SingUpScreen(),
+    );
   }
 }

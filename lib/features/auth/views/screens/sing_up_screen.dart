@@ -2,7 +2,9 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:sukun/core/responsive/responsive.dart';
+import 'package:sukun/core/theme/app_colors.dart';
+import 'package:sukun/core/theme/app_typography.dart';
 import 'package:sukun/features/auth/views/screens/log_in_screen.dart';
 
 class SingUpScreen extends StatelessWidget {
@@ -10,12 +12,13 @@ class SingUpScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size.width;
+    final r = Responsive(context);
+    final textTheme = Theme.of(context).textTheme;
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: Image.asset('assets/sukun_logo.png', width: size * 0.3),
-        backgroundColor: Colors.white,
+        title: Image.asset('assets/sukun_logo.png', width: r.fieldWidth * 0.4),
+        backgroundColor: AppColors.white,
       ),
       body: DecoratedBox(
         decoration: BoxDecoration(
@@ -29,87 +32,106 @@ class SingUpScreen extends StatelessWidget {
             width: 342,
             height: 564,
             decoration: BoxDecoration(
-              color: Color(0xFFFFC107),
+              color: AppColors.accentYellow,
               borderRadius: BorderRadius.circular(15),
             ),
             child: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  SizedBox(height: size * 0.03),
+                  SizedBox(height: r.hMedium),
                   Text(
                     'CREATE AN \nACCOUNT',
-                    style: GoogleFonts.poppins(
-                      fontWeight: FontWeight.w600,
-                      fontSize: size * 0.04,
+                    style: textTheme.headlineMedium?.copyWith(
+                      fontSize: r.titleSize,
+                      color: AppColors.black,
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  SizedBox(height: size * 0.02),
+                  SizedBox(height: r.hSmall),
                   // ! User Name Text Form Field
                   SizedBox(
-                    width: size * 0.7,
+                    width: r.fieldWidth,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       spacing: 5,
                       children: [
-                        Text('Username'),
+                        Text('Username', style: textTheme.bodyMedium),
                         TextFormField(
+                          style: textTheme.bodyMedium,
                           onChanged: (value) {},
                           decoration: InputDecoration(
                             hintText: 'Enter Your Name...',
+                            hintStyle: textTheme.bodySmall?.copyWith(
+                              color: AppColors.black,
+                            ),
                             filled: true,
-                            fillColor: Colors.white,
+                            fillColor: AppColors.white,
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.all(
                                 Radius.circular(15),
                               ),
                             ),
-                            prefixIcon: Icon(CupertinoIcons.person),
+                            prefixIcon: Icon(
+                              CupertinoIcons.person,
+                              color: AppColors.black,
+                            ),
                           ),
                         ),
                       ],
                     ),
                   ),
-                  SizedBox(height: size * 0.02),
+                  SizedBox(height: r.hMedium),
 
                   // ! Phone Number TextForm Field
                   SizedBox(
-                    width: size * 0.7,
+                    width: r.fieldWidth,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       spacing: 5,
                       children: [
-                        Text('Phone'),
+                        Text('Phone', style: textTheme.bodyMedium),
                         TextFormField(
+                          style: textTheme.bodyMedium,
                           onChanged: (value) {},
                           decoration: InputDecoration(
                             hintText: 'Enter Phone Number...',
+                            hintStyle: textTheme.bodySmall?.copyWith(
+                              color: AppColors.black,
+                            ),
                             filled: true,
-                            fillColor: Colors.white,
+                            fillColor: AppColors.white,
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.all(
                                 Radius.circular(15),
                               ),
                             ),
-                            prefixIcon: Icon(CupertinoIcons.phone),
+                            prefixIcon: Icon(
+                              CupertinoIcons.phone,
+                              color: AppColors.black,
+                            ),
                           ),
                         ),
-                        SizedBox(height: size * 0.01),
+                        SizedBox(height: r.hSmall),
                         // ! Accept Check Box With Terms & condition
                         Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Checkbox(
                               fillColor: MaterialStateProperty.all(
-                                Colors.white,
+                                AppColors.white,
                               ),
-                              side: BorderSide(color: Colors.white),
-                              checkColor: Colors.black,
+                              side: BorderSide(color: AppColors.white),
+                              checkColor: AppColors.black,
                               value: true,
                               onChanged: (value) {},
                             ),
-                            Text('Accept Terms & conditions'),
+                            Text(
+                              'Accept Terms & conditions',
+                              style: textTheme.bodySmall?.copyWith(
+                                color: AppColors.black,
+                              ),
+                            ),
                           ],
                         ),
                       ],
@@ -118,10 +140,10 @@ class SingUpScreen extends StatelessWidget {
 
                   // ! Sign Up Button
                   Container(
-                    width: size * 0.7,
-                    height: size * 0.09,
+                    width: r.fieldWidth,
+                    height: r.fieldHeight,
                     decoration: BoxDecoration(
-                      color: Colors.green,
+                      color: AppColors.primaryGreen,
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Center(
@@ -131,26 +153,30 @@ class SingUpScreen extends StatelessWidget {
                         children: [
                           Text(
                             'Sign Up',
-                            style: GoogleFonts.poppins(
-                              color: Colors.white,
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
+                            style: AppTypography.button.copyWith(
+                              fontSize: r.buttonTextSize,
                             ),
                           ),
                         ],
                       ),
                     ),
                   ),
-                  SizedBox(height: size * 0.02),
-                  dividerOr(),
-                  SizedBox(height: size * 0.02),
+                  SizedBox(height: r.hSmall),
+                  // ! Divider
+                  DividerOr(),
+                  SizedBox(height: r.hSmall),
                   GoogleAuth(ontap: () {}),
-                  SizedBox(height: size * 0.02),
+                  SizedBox(height: r.hSmall),
                   // ! If User Already Registered got to sing in
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text('Already have an accoun?'),
+                      Text(
+                        'Already have an accoun?',
+                        style: textTheme.bodySmall?.copyWith(
+                          color: AppColors.black,
+                        ),
+                      ),
                       TextButton(
                         onPressed: () {
                           Navigator.push(
@@ -162,9 +188,9 @@ class SingUpScreen extends StatelessWidget {
                         },
                         child: Text(
                           'Login',
-                          style: GoogleFonts.openSans(
+                          style: textTheme.bodyMedium?.copyWith(
                             fontWeight: FontWeight.bold,
-                            color: Colors.black,
+                            color: AppColors.black,
                           ),
                         ),
                       ),
@@ -181,20 +207,30 @@ class SingUpScreen extends StatelessWidget {
 }
 
 // ! Divider With Or
-dividerOr() {
-  return Padding(
-    padding: const EdgeInsets.only(left: 20, right: 20),
-    child: Row(
-      children: [
-        Expanded(child: Divider(thickness: 1, color: Colors.black)),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 8.0),
-          child: Text('or', style: TextStyle(fontSize: 20)),
-        ),
-        Expanded(child: Divider(thickness: 1, color: Colors.black)),
-      ],
-    ),
-  );
+class DividerOr extends StatelessWidget {
+  const DividerOr({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 35),
+      child: Row(
+        children: [
+          const Expanded(child: Divider(thickness: 1, color: AppColors.black)),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            child: Text(
+              'or',
+              style: textTheme.bodyMedium?.copyWith(color: AppColors.black),
+            ),
+          ),
+          const Expanded(child: Divider(thickness: 1, color: AppColors.black)),
+        ],
+      ),
+    );
+  }
 }
 
 // ! Google User Sign In Button
@@ -204,27 +240,27 @@ class GoogleAuth extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size.width;
+    final r = Responsive(context);
     return InkWell(
       onTap: ontap,
       child: Container(
-        width: size * 0.7,
-        height: size * 0.1,
+        width: r.fieldWidth,
+        height: r.googleHeight,
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: AppColors.white,
           borderRadius: BorderRadius.circular(10),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset('assets/google_Icon.png', width: size * 0.08),
+            Image.asset('assets/google_Icon.png', width: r.w * 0.08),
 
-            SizedBox(width: size * 0.05),
+            SizedBox(width: r.w * 0.05),
             Text(
               'Signup  with Google',
-              style: GoogleFonts.poppins(
-                fontSize: 15,
-                fontWeight: FontWeight.bold,
+              style: AppTypography.button.copyWith(
+                fontSize: r.buttonTextSize,
+                color: AppColors.black,
               ),
             ),
           ],

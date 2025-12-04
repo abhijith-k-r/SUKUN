@@ -13,6 +13,7 @@ class AppColors {
   // Backgrounds
   static const Color lightBg = Color(0xFFF5F5F5);
   static const Color darkBg = Color(0xFF101010);
+  static const Color lighblackBg = Color.fromARGB(255, 32, 32, 32);
 
   // States
   static const Color error = Colors.red;

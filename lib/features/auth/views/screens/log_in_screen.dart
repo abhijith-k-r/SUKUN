@@ -6,6 +6,7 @@ import 'package:sukun/core/responsive/responsive.dart';
 import 'package:sukun/core/theme/app_colors.dart';
 import 'package:sukun/core/theme/app_typography.dart';
 import 'package:sukun/features/auth/views/screens/sing_up_screen.dart';
+import 'package:sukun/features/bottom_navbar/views/screen/main_screen.dart';
 
 class LogInScreen extends StatelessWidget {
   const LogInScreen({super.key});
@@ -102,25 +103,31 @@ class LogInScreen extends StatelessWidget {
                   SizedBox(height: r.hSmall),
 
                   // ! Login Button
-                  Container(
-                    width: r.fieldWidth,
-                    height: r.fieldHeight,
-                    decoration: BoxDecoration(
-                      color: AppColors.accentYellow,
-                      borderRadius: BorderRadius.circular(10),
+                  GestureDetector(
+                    onTap: () => Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => MainScreen()),
                     ),
-                    child: Center(
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'Log In',
-                            style: AppTypography.button.copyWith(
-                              fontSize: r.buttonTextSize,
+                    child: Container(
+                      width: r.fieldWidth,
+                      height: r.fieldHeight,
+                      decoration: BoxDecoration(
+                        color: AppColors.accentYellow,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Center(
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Log In',
+                              style: AppTypography.button.copyWith(
+                                fontSize: r.buttonTextSize,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),

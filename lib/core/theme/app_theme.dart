@@ -38,26 +38,26 @@ class AppTheme {
             bodyColor: AppColors.black,
             displayColor: AppColors.black,
           ).copyWith(
-            headlineLarge: const TextStyle(
-              fontSize: 26,
-              fontWeight: FontWeight.w700,
-              inherit: true,
-            ),
-            headlineMedium: const TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.w600,
-              inherit: true,
-            ),
-            bodyMedium: const TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w400,
-              inherit: true,
-            ),
-            bodySmall: const TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.w400,
-              inherit: true,
-            ),
+            // headlineLarge: const TextStyle(
+            //   fontSize: 26,
+            //   fontWeight: FontWeight.w700,
+            //   inherit: true,
+            // ),
+            // headlineMedium: const TextStyle(
+            //   fontSize: 20,
+            //   fontWeight: FontWeight.w600,
+            //   inherit: true,
+            // ),
+            // bodyMedium: const TextStyle(
+            //   fontSize: 14,
+            //   fontWeight: FontWeight.w400,
+            //   inherit: true,
+            // ),
+            // bodySmall: const TextStyle(
+            //   fontSize: 12,
+            //   fontWeight: FontWeight.w400,
+            //   inherit: true,
+            // ),
             labelLarge: const TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w600,
@@ -138,26 +138,26 @@ class AppTheme {
             bodyColor: AppColors.white,
             displayColor: AppColors.white,
           ).copyWith(
-            headlineLarge: const TextStyle(
-              fontSize: 26,
-              fontWeight: FontWeight.w700,
-              inherit: true,
-            ),
-            headlineMedium: const TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.w600,
-              inherit: true,
-            ),
-            bodyMedium: const TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w400,
-              inherit: true,
-            ),
-            bodySmall: const TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.w400,
-              inherit: true,
-            ),
+            // headlineLarge: const TextStyle(
+            //   fontSize: 26,
+            //   fontWeight: FontWeight.w700,
+            //   inherit: true,
+            // ),
+            // headlineMedium: const TextStyle(
+            //   fontSize: 20,
+            //   fontWeight: FontWeight.w600,
+            //   inherit: true,
+            // ),
+            // bodyMedium: const TextStyle(
+            //   fontSize: 14,
+            //   fontWeight: FontWeight.w400,
+            //   inherit: true,
+            // ),
+            // bodySmall: const TextStyle(
+            //   fontSize: 12,
+            //   fontWeight: FontWeight.w400,
+            //   inherit: true,
+            // ),
             labelLarge: const TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w600,

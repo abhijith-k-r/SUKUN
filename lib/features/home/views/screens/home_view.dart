@@ -26,7 +26,14 @@ class HomeView extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () {},
-            icon: Icon(CupertinoIcons.search, color: onBackgroundColor),
+            icon: Icon(CupertinoIcons.location_solid, color: onBackgroundColor),
+          ),
+          IconButton(
+            onPressed: () {},
+            icon: Icon(
+              CupertinoIcons.arrow_2_circlepath,
+              color: onBackgroundColor,
+            ),
           ),
 
           Icon(CupertinoIcons.bell, color: onBackgroundColor),
@@ -52,13 +59,12 @@ class HomeView extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(height: r.w * 0.02),
+                  SizedBox(height: r.hLarge),
                   GridView.builder(
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 3,
-                      crossAxisSpacing: 25,
                       childAspectRatio: 0.885,
                     ),
                     itemCount: 12,
@@ -66,6 +72,7 @@ class HomeView extends StatelessWidget {
                       return Column(
                         children: [
                           CircleAvatar(
+                            radius: r.w * 0.07,
                             backgroundColor: index % 2 != 0
                                 ? AppColors.primaryGreen
                                 : AppColors.accentYellow,
@@ -257,33 +264,32 @@ class _CarousalImagesStateState extends State<CarousalImagesState> {
 
           currentIndex == 0
               ? Positioned(
-                  bottom: 25,
-                  left: 20,
+                  top: 15,
+                  left: 25,
+                  right: 25,
                   child: SizedBox(
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
-                          'Find Your \nTranquility \nwith SUKUN',
-                          style: textTheme.bodyLarge?.copyWith(
-                            fontWeight: FontWeight.bold,
-                            fontSize: r.hLarge,
-                            color: AppColors.black,
-                          ),
+                          'Find Your Tranquility \nwith SUKUN',
+                          style: textTheme.headlineLarge,
+                          textAlign: TextAlign.center,
                         ),
                         SizedBox(height: r.w * 0.02),
 
                         Text(
                           'Your daily companion for an Islamic lifestyle. \nLearn, discover, and grow in your faith.',
                           style: textTheme.bodySmall?.copyWith(
-                            color: AppColors.black,
+                            color: AppColors.white,
                           ),
                         ),
 
-                        SizedBox(height: r.w * 0.02),
+                        SizedBox(height: r.hLarge),
 
                         // ! Buttons
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             ElevatedButton(
                               onPressed: () {},
@@ -297,14 +303,14 @@ class _CarousalImagesStateState extends State<CarousalImagesState> {
                                 ),
                                 elevation: 0,
                               ),
-                              child: const Text('Start Learning'),
+                              child: const Text('asar 12:45pm'),
                             ),
                             const SizedBox(width: 16),
                             ElevatedButton(
                               onPressed: () {},
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: AppColors.white,
-                                foregroundColor: AppColors.primaryGreen,
+                                backgroundColor: AppColors.primaryGreen,
+                                foregroundColor: AppColors.white,
                                 padding: EdgeInsets.only(
                                   left: r.w * 0.03,
                                   right: r.w * 0.03,
@@ -314,7 +320,7 @@ class _CarousalImagesStateState extends State<CarousalImagesState> {
                                 ),
                                 elevation: 0,
                               ),
-                              child: const Text('Exploare Resources'),
+                              child: const Text('Quran'),
                             ),
                           ],
                         ),
@@ -323,19 +329,17 @@ class _CarousalImagesStateState extends State<CarousalImagesState> {
                   ),
                 )
               : Positioned(
-                  bottom: 25,
-                  left: 20,
+                  top: 15,
+                  left: 25,
+                  right: 25,
                   child: SizedBox(
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
-                          'Find Your \nTranquility \nwith SUKUN',
-                          style: textTheme.bodyLarge?.copyWith(
-                            fontWeight: FontWeight.bold,
-                            fontSize: r.hLarge,
-                            color: AppColors.white,
-                          ),
+                          'Find Your Tranquility \nwith SUKUN',
+                          style: textTheme.headlineLarge,
+                          textAlign: TextAlign.center,
                         ),
                         SizedBox(height: r.w * 0.02),
 
@@ -346,31 +350,32 @@ class _CarousalImagesStateState extends State<CarousalImagesState> {
                           ),
                         ),
 
-                        SizedBox(height: r.w * 0.02),
+                        SizedBox(height: r.hLarge),
 
                         // ! Buttons
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             ElevatedButton(
                               onPressed: () {},
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: AppColors.accentYellow,
+                                backgroundColor: AppColors.primaryGreen,
 
-                                foregroundColor: AppColors.black,
+                                foregroundColor: AppColors.white,
 
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(8),
                                 ),
                                 elevation: 0,
                               ),
-                              child: const Text('Start Learning'),
+                              child: const Text('asar 12:45pm'),
                             ),
                             const SizedBox(width: 16),
                             ElevatedButton(
                               onPressed: () {},
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: AppColors.white,
-                                foregroundColor: AppColors.primaryGreen,
+                                backgroundColor: AppColors.accentYellow,
+                                foregroundColor: AppColors.black,
                                 padding: EdgeInsets.only(
                                   left: r.w * 0.03,
                                   right: r.w * 0.03,
@@ -380,7 +385,7 @@ class _CarousalImagesStateState extends State<CarousalImagesState> {
                                 ),
                                 elevation: 0,
                               ),
-                              child: const Text('Exploare Resources'),
+                              child: const Text('Quran'),
                             ),
                           ],
                         ),
@@ -389,9 +394,57 @@ class _CarousalImagesStateState extends State<CarousalImagesState> {
                   ),
                 ),
 
+          // !  SEARCH BAR
+          Positioned(
+            bottom: 25,
+            left: 20,
+            right: 20,
+            child: Container(
+              decoration: BoxDecoration(
+                color: mode == Brightness.dark
+                    ? AppColors.black.withOpacity(0.9)
+                    : Colors.white,
+                borderRadius: mode == Brightness.light
+                    ? BorderRadius.circular(25)
+                    : BorderRadius.circular(25),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.1),
+                    blurRadius: 10,
+                    offset: Offset(0, 4),
+                  ),
+                ],
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(25),
+                child: TextField(
+                  decoration: InputDecoration(
+                    hintText: 'Search Quran, Videos...',
+                    hintStyle: textTheme.bodyMedium?.copyWith(
+                      color: Colors.grey.shade500,
+                    ),
+                    suffix: Icon(
+                      CupertinoIcons.search,
+                      color: Colors.grey.shade600,
+                    ),
+                    border: InputBorder.none,
+                    enabledBorder: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                    errorBorder: InputBorder.none,
+                    disabledBorder: InputBorder.none,
+                    contentPadding: EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 10,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+
           //! Indicator
           Positioned(
-            bottom: 16,
+            bottom: 10,
             left: 0,
             right: 0,
             child: Row(

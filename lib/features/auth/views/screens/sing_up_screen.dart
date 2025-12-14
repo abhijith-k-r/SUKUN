@@ -6,6 +6,7 @@ import 'package:sukun/core/responsive/responsive.dart';
 import 'package:sukun/core/theme/app_colors.dart';
 import 'package:sukun/core/theme/app_typography.dart';
 import 'package:sukun/features/auth/views/screens/log_in_screen.dart';
+import 'package:sukun/features/auth/views/screens/otp_verify_view.dart';
 
 class SingUpScreen extends StatelessWidget {
   const SingUpScreen({super.key});
@@ -139,25 +140,31 @@ class SingUpScreen extends StatelessWidget {
                   ),
 
                   // ! Sign Up Button
-                  Container(
-                    width: r.fieldWidth,
-                    height: r.fieldHeight,
-                    decoration: BoxDecoration(
-                      color: AppColors.primaryGreen,
-                      borderRadius: BorderRadius.circular(10),
+                  GestureDetector(
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => OtpVerifyView()),
                     ),
-                    child: Center(
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'Sign Up',
-                            style: AppTypography.button.copyWith(
-                              fontSize: r.buttonTextSize,
+                    child: Container(
+                      width: r.fieldWidth,
+                      height: r.fieldHeight,
+                      decoration: BoxDecoration(
+                        color: AppColors.primaryGreen,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Center(
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Sign up',
+                              style: AppTypography.button.copyWith(
+                                fontSize: r.buttonTextSize,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sukun/core/theme/app_theme.dart';
-import 'package:sukun/features/auth/views/screens/sing_up_screen.dart';
+import 'package:sukun/features/auth/views/screens/splash_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       theme: AppTheme.light(),
       darkTheme: AppTheme.dark(),
       themeMode: ThemeMode.system,
-      home: SingUpScreen(),
+      home: SplashScreen(),
     );
   }
 }

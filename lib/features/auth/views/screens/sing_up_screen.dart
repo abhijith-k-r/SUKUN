@@ -40,12 +40,13 @@ class SingUpScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  SizedBox(height: r.hMedium),
+                  SizedBox(height: r.hLarge),
                   Text(
-                    'CREATE AN \nACCOUNT',
+                    'CREATE AN ACCOUNT',
                     style: textTheme.headlineMedium?.copyWith(
                       fontSize: r.titleSize,
                       color: AppColors.black,
+                      fontWeight: FontWeight.bold,
                     ),
                     textAlign: TextAlign.center,
                   ),
@@ -59,7 +60,9 @@ class SingUpScreen extends StatelessWidget {
                       children: [
                         Text('Username', style: textTheme.bodyMedium),
                         TextFormField(
-                          style: textTheme.bodyMedium,
+                          style: textTheme.bodyMedium?.copyWith(
+                            color: AppColors.black,
+                          ),
                           onChanged: (value) {},
                           decoration: InputDecoration(
                             hintText: 'Enter Your Name...',
@@ -93,7 +96,9 @@ class SingUpScreen extends StatelessWidget {
                       children: [
                         Text('Phone', style: textTheme.bodyMedium),
                         TextFormField(
-                          style: textTheme.bodyMedium,
+                          style: textTheme.bodyMedium?.copyWith(
+                            color: AppColors.black,
+                          ),
                           onChanged: (value) {},
                           decoration: InputDecoration(
                             hintText: 'Enter Phone Number...',

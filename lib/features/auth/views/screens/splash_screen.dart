@@ -17,7 +17,7 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   void initState() {
     super.initState();
-          
+
     _controller = AnimationController(
       duration: const Duration(milliseconds: 2000),
       vsync: this,
@@ -39,7 +39,6 @@ class _SplashScreenState extends State<SplashScreen>
 
     _controller.forward();
 
-    // Navigate to home screen after animation
     Future.delayed(const Duration(milliseconds: 3000), () {
       if (mounted) {
         Navigator.of(context).pushReplacement(
@@ -66,10 +65,13 @@ class _SplashScreenState extends State<SplashScreen>
               opacity: _fadeAnimation,
               child: ScaleTransition(
                 scale: _scaleAnimation,
-                child: Image.asset(
-                  'assets/sukun_logo.png',
-                  width: 250,
-                  height: 250,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset('assets/logo.png', width: 160, height: 160),
+                    SizedBox(height: 15),
+                    Image.asset('assets/sukun_name.png', height: 40),
+                  ],
                 ),
               ),
             );

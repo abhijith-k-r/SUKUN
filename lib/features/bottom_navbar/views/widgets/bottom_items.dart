@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:sukun/core/theme/app_colors.dart';
 
@@ -20,7 +19,7 @@ class BottomItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final unselectedColor = AppColors.grey500;
+    final unselectedColor = AppColors.black;
 
     return GestureDetector(
       behavior: HitTestBehavior.opaque,

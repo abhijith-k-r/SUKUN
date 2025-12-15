@@ -24,10 +24,10 @@ class CustomBottomNavBar extends StatelessWidget {
       NavItem(icon: CupertinoIcons.person, label: 'Account'),
     ];
 
-    final mode = Theme.of(context).brightness;
+    // final mode = Theme.of(context).brightness;
     final r = Responsive(context);
 
-    const primaryColor = AppColors.primaryGreen;
+    const primaryColor = AppColors.accentYellow;
 
     return BlocBuilder<NavbarBloc, NavbarState>(
       builder: (context, state) {
@@ -51,9 +51,10 @@ class CustomBottomNavBar extends StatelessWidget {
                     vertical: 5,
                   ),
                   decoration: BoxDecoration(
-                    color: mode == Brightness.dark
-                        ? AppColors.black
-                        : AppColors.white,
+                    color: AppColors.primaryGreen,
+                    // mode == Brightness.dark
+                    //     ? AppColors.black
+                    //     : AppColors.white,
                     borderRadius: BorderRadius.circular(24),
                     boxShadow: [
                       BoxShadow(
@@ -143,6 +144,3 @@ class CustomBottomNavBar extends StatelessWidget {
     );
   }
 }
-
-
-

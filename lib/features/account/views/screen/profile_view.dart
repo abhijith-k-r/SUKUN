@@ -6,6 +6,8 @@ import 'package:sukun/features/about_us/views/screens/about_us_view.dart';
 import 'package:sukun/features/auth/views/screens/sing_up_screen.dart';
 import 'package:sukun/features/contact_us/views/screens/contact_us_view.dart';
 import 'package:sukun/features/faq/views/screens/faq_view.dart';
+import 'package:sukun/features/privacy_and_policy/views/screens/privacy_policy_screen.dart';
+import 'package:sukun/features/terms_and_conditons/views/screen/terms_of_service_screen.dart';
 
 class ProfileView extends StatelessWidget {
   const ProfileView({super.key});
@@ -88,8 +90,25 @@ class ProfileView extends StatelessWidget {
                       leading: Icon(Icons.privacy_tip),
                       title: Text('Privacy Policy'),
                       onTap: () {
-                        Navigator.pop(context);
-                        // Navigate to privacy policy
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => PrivacyPolicyScreen(),
+                          ),
+                        );
+                      },
+                    ),
+
+                    ListTile(
+                      leading: Icon(Icons.policy),
+                      title: Text('Terms of Service'),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => TermsOfServiceScreen(),
+                          ),
+                        );
                       },
                     ),
                     ListTile(

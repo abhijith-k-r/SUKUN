@@ -41,11 +41,13 @@ class LogInScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   SizedBox(height: r.hLarge),
+               
                   Text(
                     'LOGIN NOW',
                     style: textTheme.headlineMedium?.copyWith(
                       fontSize: r.titleSize,
                       color: AppColors.black,
+                      fontWeight: FontWeight.bold,
                     ),
                     textAlign: TextAlign.center,
                   ),
@@ -60,7 +62,9 @@ class LogInScreen extends StatelessWidget {
                       children: [
                         Text('Phone'),
                         TextFormField(
-                          style: textTheme.bodyMedium,
+                          style: textTheme.bodyMedium?.copyWith(
+                            color: AppColors.black,
+                          ),
                           onChanged: (value) {},
                           decoration: InputDecoration(
                             hintText: 'Enter Phone Number...',
@@ -142,12 +146,11 @@ class LogInScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
-                        'If dont have account with \nus please register first',
+                        'Dont have an Account? Register',
                         style: textTheme.bodyMedium,
                       ),
                       TextButton(
                         onPressed: () {
-                          
                           Navigator.push(
                             context,
                             MaterialPageRoute(

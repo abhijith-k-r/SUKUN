@@ -22,6 +22,7 @@ class AboutUsView extends StatelessWidget {
             children: [
               Image.asset(
                 'assets/about_us-removebg-preview.png',
+                width: r.fieldWidth,
                 colorBlendMode: BlendMode.color,
               ),
               SizedBox(height: r.hMedium),

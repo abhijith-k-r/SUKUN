@@ -51,6 +51,48 @@ class HomeView extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  // ! Search Form Field
+                  Container(
+                    decoration: BoxDecoration(
+                      color: mode == Brightness.dark
+                          ? AppColors.black.withOpacity(0.9)
+                          : Colors.white,
+                      borderRadius: mode == Brightness.light
+                          ? BorderRadius.circular(25)
+                          : BorderRadius.circular(25),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.1),
+                          blurRadius: 10,
+                          offset: Offset(0, 4),
+                        ),
+                      ],
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(25),
+                      child: TextField(
+                        decoration: InputDecoration(
+                          hintText: 'Search Quran, Videos...',
+                          hintStyle: textThem.bodyMedium?.copyWith(
+                            color: Colors.grey.shade500,
+                          ),
+                          suffix: Icon(
+                            CupertinoIcons.search,
+                            color: Colors.grey.shade600,
+                          ),
+                          border: InputBorder.none,
+                          enabledBorder: InputBorder.none,
+                          focusedBorder: InputBorder.none,
+                          errorBorder: InputBorder.none,
+                          disabledBorder: InputBorder.none,
+                          contentPadding: EdgeInsets.symmetric(
+                            horizontal: 20,
+                            vertical: 10,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
                   SizedBox(height: r.w * 0.02),
                   Text(
                     'Categories',
@@ -64,8 +106,8 @@ class HomeView extends StatelessWidget {
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 3,
-                      childAspectRatio: 0.885,
+                      crossAxisCount: 4,
+                      childAspectRatio: 0.8,
                     ),
                     itemCount: 12,
                     itemBuilder: (context, index) {
@@ -82,122 +124,181 @@ class HomeView extends StatelessWidget {
                               icon: Icon(CupertinoIcons.book),
                             ),
                           ),
-                          Text(
-                            'Quran',
-                            style: textThem.bodyMedium?.copyWith(
-                              color: onBackgroundColor,
-                            ),
-                          ),
+                          Text('Quran', style: textThem.bodyMedium?.copyWith()),
                         ],
                       );
                     },
+                  ),
+
+                  SizedBox(height: r.hLarge),
+
+                  // ! Coming Soon Section
+                  ListView.separated(
+                    physics: NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) {
+                      return Container(
+                        width: double.infinity,
+                        height: r.w * 0.4,
+                        decoration: BoxDecoration(
+                          color: AppColors.accentYellow,
+                          borderRadius: BorderRadius.circular(15),
+                          image: DecorationImage(
+                            colorFilter: ColorFilter.mode(
+                              AppColors.lighblackBg,
+                              BlendMode.overlay,
+                            ),
+                            image: AssetImage(
+                              'assets/18df6afc67b0e82a0c5a46b31a197543.jpg',
+                            ),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                            left: r.w * 0.05,
+                            top: r.w * 0.01,
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: AppColors.error,
+                                  foregroundColor: AppColors.white,
+                                  shape: BeveledRectangleBorder(
+                                    borderRadius: BorderRadiusGeometry.circular(
+                                      20,
+                                    ),
+                                  ),
+                                ),
+                                onPressed: () {},
+                                child: Text('COMING SOON'),
+                              ),
+
+                              // ! Content TEXt
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Mahal Management',
+                                    style: textThem.bodyLarge?.copyWith(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  SizedBox(height: r.hSmall),
+                                  Text(
+                                    "Project overview A conceren and Comprehensive document of blueprint that outlines a company's adventging and etx.. This text can now be much longer and will expand the container height dynamically as needed.",
+                                    maxLines: 3,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                    separatorBuilder: (context, index) =>
+                        SizedBox(height: r.hLarge),
+                    itemCount: 4,
                   ),
                 ],
               ),
             ),
 
-            // ! Featuured Videos
-            Container(
-              width: double.infinity,
-              height: r.w * 0.6,
-              decoration: BoxDecoration(color: AppColors.primaryGreen),
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: r.w * 0.04),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(height: r.w * 0.02),
-                    Text(
-                      'Featured Videos',
-                      style: textThem.bodyLarge?.copyWith(
-                        color: onBackgroundColor,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    SizedBox(
-                      width: double.infinity,
-                      height: r.w * 0.5,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: 5,
-                        itemBuilder: (context, index) {
-                          return Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Card(
-                              child: SizedBox(
-                                width: r.w * 0.5,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Stack(
-                                      alignment: AlignmentGeometry.center,
-                                      children: [
-                                        Container(
-                                          width: r.w * 0.5,
-                                          height: r.w * 0.3,
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.vertical(
-                                              top: Radius.circular(15),
-                                            ),
-                                          ),
-                                          child: ClipRRect(
-                                            borderRadius: BorderRadius.vertical(
-                                              top: Radius.circular(15),
-                                            ),
-                                            child: Image.asset(
-                                              'assets/6512e4f3a9aa647e34d326e6cbd2f44b.jpg',
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
-                                        ),
-                                        Positioned(
-                                          child: IconButton(
-                                            onPressed: () {},
-                                            icon: Icon(
-                                              CupertinoIcons.play_circle,
-                                              size: r.w * 0.1,
-                                              color: AppColors.white,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
+            // // ! Featuured Videos
+            // Container(
+            //   width: double.infinity,
+            //   height: r.w * 0.6,
+            //   decoration: BoxDecoration(color: AppColors.primaryGreen),
+            //   child: Padding(
+            //     padding: EdgeInsets.symmetric(horizontal: r.w * 0.04),
+            //     child: Column(
+            //       crossAxisAlignment: CrossAxisAlignment.start,
+            //       children: [
+            //         SizedBox(height: r.w * 0.02),
 
-                                    Padding(
-                                      padding: EdgeInsets.all(r.w * 0.01),
-                                      child: Text(
-                                        'The Beauty of \nQuaranic Recitation kdkf lkldjjfds j;sdsjf ',
-                                        style: textThem.bodyMedium?.copyWith(
-                                          color: onBackgroundColor,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                        maxLines: 2,
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+            //         Text(
+            //           'Featured Videos',
+            //           style: textThem.bodyLarge?.copyWith(
+            //             color: onBackgroundColor,
+            //             fontWeight: FontWeight.bold,
+            //           ),
+            //         ),
+            //         SizedBox(
+            //           width: double.infinity,
+            //           height: r.w * 0.5,
+            //           child: ListView.builder(
+            //             scrollDirection: Axis.horizontal,
+            //             itemCount: 5,
+            //             itemBuilder: (context, index) {
+            //               return Padding(
+            //                 padding: const EdgeInsets.all(8.0),
+            //                 child: Card(
+            //                   child: SizedBox(
+            //                     width: r.w * 0.5,
+            //                     child: Column(
+            //                       crossAxisAlignment: CrossAxisAlignment.start,
+            //                       children: [
+            //                         Stack(
+            //                           alignment: AlignmentGeometry.center,
+            //                           children: [
+            //                             Container(
+            //                               width: r.w * 0.5,
+            //                               height: r.w * 0.3,
+            //                               decoration: BoxDecoration(
+            //                                 borderRadius: BorderRadius.vertical(
+            //                                   top: Radius.circular(15),
+            //                                 ),
+            //                               ),
+            //                               child: ClipRRect(
+            //                                 borderRadius: BorderRadius.vertical(
+            //                                   top: Radius.circular(15),
+            //                                 ),
+            //                                 child: Image.asset(
+            //                                   'assets/6512e4f3a9aa647e34d326e6cbd2f44b.jpg',
+            //                                   fit: BoxFit.cover,
+            //                                 ),
+            //                               ),
+            //                             ),
+            //                             Positioned(
+            //                               child: IconButton(
+            //                                 onPressed: () {},
+            //                                 icon: Icon(
+            //                                   CupertinoIcons.play_circle,
+            //                                   size: r.w * 0.1,
+            //                                   color: AppColors.white,
+            //                                 ),
+            //                               ),
+            //                             ),
+            //                           ],
+            //                         ),
 
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: r.w * 0.04),
-              child: Container(
-                width: double.infinity,
-                height: r.w * 0.3,
-                decoration: BoxDecoration(color: AppColors.accentYellow),
-                child: Column(children: []),
-              ),
-            ),
-
+            //                         Padding(
+            //                           padding: EdgeInsets.all(r.w * 0.01),
+            //                           child: Text(
+            //                             'The Beauty of \nQuaranic Recitation kdkf lkldjjfds j;sdsjf ',
+            //                             style: textThem.bodyMedium?.copyWith(
+            //                               color: onBackgroundColor,
+            //                               fontWeight: FontWeight.bold,
+            //                             ),
+            //                             maxLines: 2,
+            //                             overflow: TextOverflow.ellipsis,
+            //                           ),
+            //                         ),
+            //                       ],
+            //                     ),
+            //                   ),
+            //                 ),
+            //               );
+            //             },
+            //           ),
+            //         ),
+            //       ],
+            //     ),
+            //   ),
+            // ),
             SizedBox(height: r.w * 0.1),
           ],
         ),
@@ -225,7 +326,7 @@ class _CarousalImagesStateState extends State<CarousalImagesState> {
 
     return Container(
       width: double.infinity,
-      height: r.w * 0.7,
+      height: r.w * 0.6,
       color: mode == Brightness.dark
           ? AppColors.lighblackBg
           : AppColors.lightBg,
@@ -240,14 +341,14 @@ class _CarousalImagesStateState extends State<CarousalImagesState> {
                 height: r.w * 0.7,
                 child: Image.asset(
                   index == 0
-                      ? 'assets/carousal_image_1.png'
+                      ? 'assets/carosal-img-1.png'
                       : 'assets/carousal_image_2.png',
                   fit: BoxFit.cover,
                 ),
               );
             },
             options: CarouselOptions(
-              height: r.w * 0.7,
+              height: r.w * 0.6,
               viewportFraction: 1.0,
               enlargeCenterPage: true,
               autoPlay: true,
@@ -395,52 +496,12 @@ class _CarousalImagesStateState extends State<CarousalImagesState> {
                 ),
 
           // !  SEARCH BAR
-          Positioned(
-            bottom: 25,
-            left: 20,
-            right: 20,
-            child: Container(
-              decoration: BoxDecoration(
-                color: mode == Brightness.dark
-                    ? AppColors.black.withOpacity(0.9)
-                    : Colors.white,
-                borderRadius: mode == Brightness.light
-                    ? BorderRadius.circular(25)
-                    : BorderRadius.circular(25),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
-                    blurRadius: 10,
-                    offset: Offset(0, 4),
-                  ),
-                ],
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(25),
-                child: TextField(
-                  decoration: InputDecoration(
-                    hintText: 'Search Quran, Videos...',
-                    hintStyle: textTheme.bodyMedium?.copyWith(
-                      color: Colors.grey.shade500,
-                    ),
-                    suffix: Icon(
-                      CupertinoIcons.search,
-                      color: Colors.grey.shade600,
-                    ),
-                    border: InputBorder.none,
-                    enabledBorder: InputBorder.none,
-                    focusedBorder: InputBorder.none,
-                    errorBorder: InputBorder.none,
-                    disabledBorder: InputBorder.none,
-                    contentPadding: EdgeInsets.symmetric(
-                      horizontal: 20,
-                      vertical: 10,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
+          // Positioned(
+          //   bottom: 25,
+          //   left: 20,
+          //   right: 20,
+          //   child:
+          // ),
 
           //! Indicator
           Positioned(

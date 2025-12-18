@@ -1,10 +1,10 @@
 // ignore_for_file: deprecated_member_use
 
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sukun/core/responsive/responsive.dart';
 import 'package:sukun/core/theme/app_colors.dart';
+import 'package:sukun/features/home/views/widgets/carousel_image_widget.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
@@ -51,6 +51,7 @@ class HomeView extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  SizedBox(height: 20),
                   // ! Search Form Field
                   Container(
                     decoration: BoxDecoration(
@@ -104,28 +105,24 @@ class HomeView extends StatelessWidget {
                   SizedBox(height: r.hLarge),
                   GridView.builder(
                     shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 4,
-                      childAspectRatio: 0.8,
-                    ),
-                    itemCount: 12,
+                    physics: const NeverScrollableScrollPhysics(),
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 4,
+                          mainAxisSpacing: 15,
+                          crossAxisSpacing: 8,
+                          childAspectRatio: 0.65,
+                        ),
+                    itemCount: categories.length,
                     itemBuilder: (context, index) {
-                      return Column(
-                        children: [
-                          CircleAvatar(
-                            radius: r.w * 0.07,
-                            backgroundColor: index % 2 != 0
-                                ? AppColors.primaryGreen
-                                : AppColors.accentYellow,
-                            foregroundColor: AppColors.white,
-                            child: IconButton(
-                              onPressed: () {},
-                              icon: Icon(CupertinoIcons.book),
-                            ),
-                          ),
-                          Text('Quran', style: textThem.bodyMedium?.copyWith()),
-                        ],
+                      final item = categories[index];
+                      return CategoryItemsCircle(
+                        icon: item.icon,
+                        label: item.label,
+                        isSoon: item.isSoon,
+                        onTap: () {},
+                        r: r,
+                        textTheme: textThem,
                       );
                     },
                   ),
@@ -137,6 +134,7 @@ class HomeView extends StatelessWidget {
                     physics: NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     itemBuilder: (context, index) {
+                      final img = imageUrls[index];
                       return Container(
                         width: double.infinity,
                         height: r.w * 0.4,
@@ -148,157 +146,20 @@ class HomeView extends StatelessWidget {
                               AppColors.lighblackBg,
                               BlendMode.overlay,
                             ),
-                            image: AssetImage(
-                              'assets/18df6afc67b0e82a0c5a46b31a197543.jpg',
-                            ),
+                            image: AssetImage(img),
                             fit: BoxFit.cover,
-                          ),
-                        ),
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                            left: r.w * 0.05,
-                            top: r.w * 0.01,
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: AppColors.error,
-                                  foregroundColor: AppColors.white,
-                                  shape: BeveledRectangleBorder(
-                                    borderRadius: BorderRadiusGeometry.circular(
-                                      20,
-                                    ),
-                                  ),
-                                ),
-                                onPressed: () {},
-                                child: Text('COMING SOON'),
-                              ),
-
-                              // ! Content TEXt
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Mahal Management',
-                                    style: textThem.bodyLarge?.copyWith(
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  SizedBox(height: r.hSmall),
-                                  Text(
-                                    "Project overview A conceren and Comprehensive document of blueprint that outlines a company's adventging and etx.. This text can now be much longer and will expand the container height dynamically as needed.",
-                                    maxLines: 3,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ],
-                              ),
-                            ],
                           ),
                         ),
                       );
                     },
                     separatorBuilder: (context, index) =>
                         SizedBox(height: r.hLarge),
-                    itemCount: 4,
+                    itemCount: imageUrls.length,
                   ),
                 ],
               ),
             ),
 
-            // // ! Featuured Videos
-            // Container(
-            //   width: double.infinity,
-            //   height: r.w * 0.6,
-            //   decoration: BoxDecoration(color: AppColors.primaryGreen),
-            //   child: Padding(
-            //     padding: EdgeInsets.symmetric(horizontal: r.w * 0.04),
-            //     child: Column(
-            //       crossAxisAlignment: CrossAxisAlignment.start,
-            //       children: [
-            //         SizedBox(height: r.w * 0.02),
-
-            //         Text(
-            //           'Featured Videos',
-            //           style: textThem.bodyLarge?.copyWith(
-            //             color: onBackgroundColor,
-            //             fontWeight: FontWeight.bold,
-            //           ),
-            //         ),
-            //         SizedBox(
-            //           width: double.infinity,
-            //           height: r.w * 0.5,
-            //           child: ListView.builder(
-            //             scrollDirection: Axis.horizontal,
-            //             itemCount: 5,
-            //             itemBuilder: (context, index) {
-            //               return Padding(
-            //                 padding: const EdgeInsets.all(8.0),
-            //                 child: Card(
-            //                   child: SizedBox(
-            //                     width: r.w * 0.5,
-            //                     child: Column(
-            //                       crossAxisAlignment: CrossAxisAlignment.start,
-            //                       children: [
-            //                         Stack(
-            //                           alignment: AlignmentGeometry.center,
-            //                           children: [
-            //                             Container(
-            //                               width: r.w * 0.5,
-            //                               height: r.w * 0.3,
-            //                               decoration: BoxDecoration(
-            //                                 borderRadius: BorderRadius.vertical(
-            //                                   top: Radius.circular(15),
-            //                                 ),
-            //                               ),
-            //                               child: ClipRRect(
-            //                                 borderRadius: BorderRadius.vertical(
-            //                                   top: Radius.circular(15),
-            //                                 ),
-            //                                 child: Image.asset(
-            //                                   'assets/6512e4f3a9aa647e34d326e6cbd2f44b.jpg',
-            //                                   fit: BoxFit.cover,
-            //                                 ),
-            //                               ),
-            //                             ),
-            //                             Positioned(
-            //                               child: IconButton(
-            //                                 onPressed: () {},
-            //                                 icon: Icon(
-            //                                   CupertinoIcons.play_circle,
-            //                                   size: r.w * 0.1,
-            //                                   color: AppColors.white,
-            //                                 ),
-            //                               ),
-            //                             ),
-            //                           ],
-            //                         ),
-
-            //                         Padding(
-            //                           padding: EdgeInsets.all(r.w * 0.01),
-            //                           child: Text(
-            //                             'The Beauty of \nQuaranic Recitation kdkf lkldjjfds j;sdsjf ',
-            //                             style: textThem.bodyMedium?.copyWith(
-            //                               color: onBackgroundColor,
-            //                               fontWeight: FontWeight.bold,
-            //                             ),
-            //                             maxLines: 2,
-            //                             overflow: TextOverflow.ellipsis,
-            //                           ),
-            //                         ),
-            //                       ],
-            //                     ),
-            //                   ),
-            //                 ),
-            //               );
-            //             },
-            //           ),
-            //         ),
-            //       ],
-            //     ),
-            //   ),
-            // ),
             SizedBox(height: r.w * 0.1),
           ],
         ),
@@ -307,227 +168,163 @@ class HomeView extends StatelessWidget {
   }
 }
 
-// ! Carousal Image
-class CarousalImagesState extends StatefulWidget {
-  const CarousalImagesState({super.key});
+// ! ++++=============
 
-  @override
-  State<CarousalImagesState> createState() => _CarousalImagesStateState();
+class CategoryItem {
+  final IconData icon;
+  final String label;
+  final bool isSoon;
+  const CategoryItem({
+    required this.icon,
+    required this.label,
+    this.isSoon = false,
+  });
 }
 
-class _CarousalImagesStateState extends State<CarousalImagesState> {
-  int currentIndex = 0;
-  // Move HERE - class level state variable
+const categories = [
+  CategoryItem(icon: CupertinoIcons.book, label: 'Quran'),
+  CategoryItem(icon: CupertinoIcons.news, label: 'News'),
+  CategoryItem(icon: CupertinoIcons.play_circle, label: 'Videos'),
+  CategoryItem(icon: CupertinoIcons.checkmark_alt, label: 'Dhikr Counter'),
+  CategoryItem(icon: CupertinoIcons.scope, label: 'Discover'),
+  CategoryItem(icon: CupertinoIcons.location_north, label: 'Qibla'),
+  CategoryItem(icon: CupertinoIcons.time, label: 'Prayer Times'),
+  CategoryItem(
+    icon: CupertinoIcons.book_solid,
+    label: 'Kitab & Library',
+    isSoon: true,
+  ),
+  CategoryItem(icon: CupertinoIcons.calendar, label: 'Calendar & Events'),
+  CategoryItem(
+    icon: CupertinoIcons.building_2_fill,
+    label: 'Madrasa & Tuitions',
+    isSoon: true,
+  ),
+  CategoryItem(icon: CupertinoIcons.person_2, label: 'Islamic Forum'),
+  CategoryItem(
+    icon: CupertinoIcons.checkmark_rectangle,
+    label: 'Qatham Planner',
+  ),
+  CategoryItem(
+    icon: CupertinoIcons.speaker,
+    label: 'Dhikr & Dua',
+    isSoon: true,
+  ),
+
+  CategoryItem(icon: CupertinoIcons.person_alt, label: 'Islamic Jobs'),
+  CategoryItem(
+    icon: CupertinoIcons.hand_raised,
+    label: 'Masjid & Prayer Halls',
+  ),
+  CategoryItem(
+    icon: CupertinoIcons.moon_stars,
+    label: 'Moulid & Swalath',
+    isSoon: true,
+  ),
+  CategoryItem(icon: CupertinoIcons.person, label: 'Namaz & Qadah'),
+  CategoryItem(icon: CupertinoIcons.list_bullet, label: 'To-Do List'),
+  CategoryItem(icon: Icons.calculate, label: 'Zakath Calculator', isSoon: true),
+  CategoryItem(icon: CupertinoIcons.moon_stars, label: 'Ramzan & Qadah'),
+  CategoryItem(
+    icon: CupertinoIcons.person_2,
+    label: 'Manage Organization',
+    isSoon: true,
+  ),
+  CategoryItem(
+    icon: CupertinoIcons.phone_badge_plus,
+    label: 'Ask Ustad',
+    isSoon: true,
+  ),
+  CategoryItem(
+    icon: CupertinoIcons.search,
+    label: 'Explore Hadees',
+    isSoon: true,
+  ),
+  CategoryItem(icon: CupertinoIcons.cart, label: 'Shopping', isSoon: true),
+];
+
+// !=======()=======
+
+class CategoryItemsCircle extends StatelessWidget {
+  final IconData icon;
+  final String label;
+  final bool isSoon;
+  final VoidCallback onTap;
+  final Responsive r;
+  final TextTheme textTheme;
+
+  const CategoryItemsCircle({
+    super.key,
+    required this.icon,
+    required this.label,
+    required this.isSoon,
+    required this.onTap,
+    required this.r,
+    required this.textTheme,
+  });
+
   @override
   Widget build(BuildContext context) {
-    final r = Responsive(context);
-    final textTheme = Theme.of(context).textTheme;
-    final mode = Theme.of(context).brightness;
-
-    return Container(
-      width: double.infinity,
-      height: r.w * 0.6,
-      color: mode == Brightness.dark
-          ? AppColors.lighblackBg
-          : AppColors.lightBg,
-      child: Stack(
+    return GestureDetector(
+      onTap: onTap,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
-          // ! Carousel
-          CarouselSlider.builder(
-            itemCount: 2,
-            itemBuilder: (context, index, realIndex) {
-              return SizedBox(
-                width: double.infinity,
-                height: r.w * 0.7,
-                child: Image.asset(
-                  index == 0
-                      ? 'assets/carosal-img-1.png'
-                      : 'assets/carousal_image_2.png',
-                  fit: BoxFit.cover,
-                ),
-              );
-            },
-            options: CarouselOptions(
-              height: r.w * 0.6,
-              viewportFraction: 1.0,
-              enlargeCenterPage: true,
-              autoPlay: true,
-              autoPlayCurve: Curves.fastOutSlowIn,
-              enableInfiniteScroll: true,
-              autoPlayAnimationDuration: Duration(milliseconds: 800),
-              onPageChanged: (index, reason) {
-                setState(() {
-                  currentIndex = index;
-                });
-              },
-            ),
-          ),
-
-          currentIndex == 0
-              ? Positioned(
-                  top: 15,
-                  left: 25,
-                  right: 25,
-                  child: SizedBox(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Find Your Tranquility \nwith SUKUN',
-                          style: textTheme.headlineLarge,
-                          textAlign: TextAlign.center,
-                        ),
-                        SizedBox(height: r.w * 0.02),
-
-                        Text(
-                          'Your daily companion for an Islamic lifestyle. \nLearn, discover, and grow in your faith.',
-                          style: textTheme.bodySmall?.copyWith(
-                            color: AppColors.white,
-                          ),
-                        ),
-
-                        SizedBox(height: r.hLarge),
-
-                        // ! Buttons
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            ElevatedButton(
-                              onPressed: () {},
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: AppColors.accentYellow,
-
-                                foregroundColor: AppColors.black,
-
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                elevation: 0,
-                              ),
-                              child: const Text('asar 12:45pm'),
-                            ),
-                            const SizedBox(width: 16),
-                            ElevatedButton(
-                              onPressed: () {},
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: AppColors.primaryGreen,
-                                foregroundColor: AppColors.white,
-                                padding: EdgeInsets.only(
-                                  left: r.w * 0.03,
-                                  right: r.w * 0.03,
-                                ),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                elevation: 0,
-                              ),
-                              child: const Text('Quran'),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                )
-              : Positioned(
-                  top: 15,
-                  left: 25,
-                  right: 25,
-                  child: SizedBox(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Find Your Tranquility \nwith SUKUN',
-                          style: textTheme.headlineLarge,
-                          textAlign: TextAlign.center,
-                        ),
-                        SizedBox(height: r.w * 0.02),
-
-                        Text(
-                          'Your daily companion for an Islamic lifestyle. \nLearn, discover, and grow in your faith.',
-                          style: textTheme.bodySmall?.copyWith(
-                            color: AppColors.white,
-                          ),
-                        ),
-
-                        SizedBox(height: r.hLarge),
-
-                        // ! Buttons
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            ElevatedButton(
-                              onPressed: () {},
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: AppColors.primaryGreen,
-
-                                foregroundColor: AppColors.white,
-
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                elevation: 0,
-                              ),
-                              child: const Text('asar 12:45pm'),
-                            ),
-                            const SizedBox(width: 16),
-                            ElevatedButton(
-                              onPressed: () {},
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: AppColors.accentYellow,
-                                foregroundColor: AppColors.black,
-                                padding: EdgeInsets.only(
-                                  left: r.w * 0.03,
-                                  right: r.w * 0.03,
-                                ),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                elevation: 0,
-                              ),
-                              child: const Text('Quran'),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-
-          // !  SEARCH BAR
-          // Positioned(
-          //   bottom: 25,
-          //   left: 20,
-          //   right: 20,
-          //   child:
-          // ),
-
-          //! Indicator
-          Positioned(
-            bottom: 10,
-            left: 0,
-            right: 0,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: List.generate(
-                2,
-                (index) => Container(
-                  margin: EdgeInsets.symmetric(horizontal: 4),
-                  width: 8,
-                  height: 8,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: currentIndex == index
-                        ? AppColors.white
-                        : AppColors.white.withOpacity(0.5),
-                  ),
+          Stack(
+            clipBehavior: Clip.none,
+            children: [
+              CircleAvatar(
+                radius: r.w * 0.08,
+                backgroundColor: AppColors.accentYellow,
+                child: Icon(
+                  icon,
+                  color: AppColors.primaryGreen,
+                  size: r.w * 0.06,
                 ),
               ),
-            ),
+
+              // "Soon" badge
+              if (isSoon)
+                Positioned(
+                  top: -6,
+                  right: -4,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 6,
+                      vertical: 2,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.red,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: const Text(
+                      'Soon',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 9,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ),
+            ],
+          ),
+          SizedBox(height: r.hSmall * 0.6),
+          Text(
+            label,
+            textAlign: TextAlign.center,
+            style: textTheme.bodySmall?.copyWith(fontWeight: FontWeight.bold),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
           ),
         ],
       ),
     );
   }
 }
+
+// ! ======== Footr Cards Section
+const imageUrls = [
+  'assets/WhatsApp Image 2025-12-18 at 3.15.40 PM.jpeg',
+  'assets/WhatsApp Image 2025-12-18 at 3.33.27 PM.jpeg',
+];

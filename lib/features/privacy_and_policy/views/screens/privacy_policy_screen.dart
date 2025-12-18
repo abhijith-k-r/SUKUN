@@ -130,10 +130,9 @@ class PrivacyPolicyScreen extends StatelessWidget {
                 children: [
                   const Icon(Icons.email, color: Colors.blue, size: 20),
                   const SizedBox(width: 8),
-                  const Text(
+                  Text(
                     'info@grandelectricals.com',
-                    style: TextStyle(
-                      fontSize: 16,
+                    style: textTheme.bodySmall?.copyWith(
                       color: Colors.blue,
                       decoration: TextDecoration.underline,
                     ),

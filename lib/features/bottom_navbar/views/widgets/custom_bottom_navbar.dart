@@ -24,8 +24,9 @@ class CustomBottomNavBar extends StatelessWidget {
       NavItem(icon: CupertinoIcons.person, label: 'Account'),
     ];
 
-    // final mode = Theme.of(context).brightness;
+    final mode = Theme.of(context).brightness;
     final r = Responsive(context);
+    final textThem = Theme.of(context).textTheme;
 
     const primaryColor = AppColors.accentYellow;
 
@@ -46,16 +47,15 @@ class CustomBottomNavBar extends StatelessWidget {
               Positioned.fill(
                 top: 18,
                 child: Container(
-                  margin: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 5,
-                  ),
+                  // margin: const EdgeInsets.symmetric(
+                  //   horizontal: 16,
+                  //   vertical: 5,
+                  // ),
                   decoration: BoxDecoration(
-                    color: AppColors.primaryGreen,
-                    // mode == Brightness.dark
-                    //     ? AppColors.black
-                    //     : AppColors.white,
-                    borderRadius: BorderRadius.circular(24),
+                    color: mode == Brightness.dark
+                        ? AppColors.black
+                        : AppColors.white,
+                    borderRadius: BorderRadius.circular(15),
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black.withOpacity(0.08),
@@ -64,29 +64,31 @@ class CustomBottomNavBar extends StatelessWidget {
                       ),
                     ],
                   ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: List.generate(items.length, (index) {
-                      final item = items[index];
-                      final isSelected = index == selectedIndex;
+                  child: Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: List.generate(items.length, (index) {
+                        final item = items[index];
+                        final isSelected = index == selectedIndex;
 
-                      // If selected: hide icon inside the bar (circle will show it)
-                      if (isSelected) {
-                        return SizedBox(width: itemWidth * 0.6);
-                      }
+                        if (isSelected) {
+                          return SizedBox(width: itemWidth * 0.6);
+                        }
 
-                      return BottomItem(
-                        icon: item.icon,
-                        label: item.label,
-                        isSelected: false,
-                        primaryColor: primaryColor,
-                        onTap: () {
-                          context.read<NavbarBloc>().add(
-                            NavigationTabChanged(index),
-                          );
-                        },
-                      );
-                    }),
+                        return BottomItem(
+                          icon: item.icon,
+                          label: item.label,
+                          isSelected: false,
+                          primaryColor: primaryColor,
+                          onTap: () {
+                            context.read<NavbarBloc>().add(
+                              NavigationTabChanged(index),
+                            );
+                          },
+                        );
+                      }),
+                    ),
                   ),
                 ),
               ),
@@ -94,45 +96,49 @@ class CustomBottomNavBar extends StatelessWidget {
               // Moving circle above bar
               Positioned(
                 top: -8,
-                left: circleCenterX - 35, // circle radius
+                left: circleCenterX - 35,
+                // circle radius
                 child: GestureDetector(
                   onTap: () {
                     context.read<NavbarBloc>().add(
                       NavigationTabChanged(selectedIndex),
                     );
                   },
-                  child: Container(
-                    width: 70,
-                    height: 70,
-                    decoration: BoxDecoration(
-                      color: primaryColor,
-                      shape: BoxShape.circle,
-                      boxShadow: [
-                        BoxShadow(
-                          color: primaryColor.withOpacity(0.35),
-                          blurRadius: 18,
-                          offset: const Offset(0, 6),
-                        ),
-                      ],
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          items[selectedIndex].icon,
-                          color: Colors.white,
-                          size: 26,
-                        ),
-                        const SizedBox(height: 3),
-                        Text(
-                          items[selectedIndex].label,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 10,
-                            fontWeight: FontWeight.w600,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      width: 65,
+                      height: 65,
+                      decoration: BoxDecoration(
+                        color: primaryColor,
+                        shape: BoxShape.circle,
+                        boxShadow: [
+                          BoxShadow(
+                            color: primaryColor.withOpacity(0.35),
+                            blurRadius: 18,
+                            offset: const Offset(0, 6),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            items[selectedIndex].icon,
+                            color: AppColors.primaryGreen,
+                            size: 26,
+                          ),
+                          const SizedBox(height: 3),
+                          Text(
+                            items[selectedIndex].label,
+                            style: TextStyle(
+                              color: AppColors.primaryGreen,
+                              fontSize: 8,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),

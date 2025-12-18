@@ -63,58 +63,60 @@ class PopularNews extends StatelessWidget {
                           : AppColors.grey500,
                       child: SizedBox(
                         width: r.w * 0.5,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Stack(
-                              alignment: AlignmentGeometry.center,
-                              children: [
-                                Container(
-                                  width: r.w * 0.5,
-                                  height: r.w * 0.3,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.vertical(
-                                      top: Radius.circular(15),
+                        child: SingleChildScrollView(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Stack(
+                                alignment: AlignmentGeometry.center,
+                                children: [
+                                  Container(
+                                    width: r.w * 0.5,
+                                    height: r.w * 0.3,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.vertical(
+                                        top: Radius.circular(15),
+                                      ),
+                                    ),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.vertical(
+                                        top: Radius.circular(10),
+                                      ),
+                                      child: Image.asset(
+                                        'assets/news.jpg',
+                                        fit: BoxFit.cover,
+                                      ),
                                     ),
                                   ),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.vertical(
-                                      top: Radius.circular(10),
-                                    ),
-                                    child: Image.asset(
-                                      'assets/news.jpg',
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ),
-                                Positioned(
-                                  child: IconButton(
-                                    onPressed: () {},
-                                    icon: Icon(
-                                      CupertinoIcons.play_circle,
-                                      size: r.w * 0.1,
-                                      color: AppColors.white,
+                                  Positioned(
+                                    child: IconButton(
+                                      onPressed: () {},
+                                      icon: Icon(
+                                        CupertinoIcons.play_circle,
+                                        size: r.w * 0.1,
+                                        color: AppColors.white,
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ],
-                            ),
-
-                            Padding(
-                              padding: EdgeInsets.all(r.w * 0.01),
-                              child: Text(
-                                'New Islamic Art Exhibit Opens in London',
-                                style: textThem.bodyMedium?.copyWith(
-                                  color: mode == Brightness.dark
-                                      ? AppColors.black
-                                      : AppColors.white,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
+                                ],
                               ),
-                            ),
-                          ],
+
+                              Padding(
+                                padding: EdgeInsets.all(r.w * 0.01),
+                                child: Text(
+                                  'New Islamic Art Exhibit Opens in London',
+                                  style: textThem.bodyMedium?.copyWith(
+                                    color: mode == Brightness.dark
+                                        ? AppColors.black
+                                        : AppColors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),

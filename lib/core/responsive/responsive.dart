@@ -12,6 +12,10 @@ class Responsive {
   double get hMedium => w * 0.03;
   double get hLarge => w * 0.04;
 
+  double get wSmall => w * 0.02;
+  double get wMedium => w * 0.03;
+  double get wLarge => w * 0.04;
+
   double get fieldWidth => w * 0.7;
   double get fieldHeight => w * 0.09;
   double get googleHeight => w * 0.10;

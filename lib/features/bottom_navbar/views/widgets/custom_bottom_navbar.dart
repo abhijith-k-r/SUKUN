@@ -26,7 +26,7 @@ class CustomBottomNavBar extends StatelessWidget {
 
     final mode = Theme.of(context).brightness;
     final r = Responsive(context);
-    final textThem = Theme.of(context).textTheme;
+    // final textThem = Theme.of(context).textTheme;
 
     const primaryColor = AppColors.accentYellow;
 

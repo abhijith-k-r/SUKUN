@@ -8,6 +8,7 @@ import 'package:sukun/features/bottom_navbar/view_model/bloc/navbar_event.dart';
 import 'package:sukun/features/bottom_navbar/views/widgets/custom_bottom_navbar.dart';
 import 'package:sukun/features/home/views/screens/home_view.dart';
 import 'package:sukun/features/news/views/screens/popular_news.dart';
+import 'package:sukun/features/quran/views/screens/quran_homepage_view.dart';
 
 class MainScreen extends StatelessWidget {
   const MainScreen({super.key});
@@ -29,7 +30,7 @@ class MainScreen extends StatelessWidget {
               },
               children: [
                 HomeView(),
-                Scaffold(body: Center(child: Text('Quran'))),
+                QuranHomePage(),
                 PopularNews(),
                 Scaffold(
                   body: Center(

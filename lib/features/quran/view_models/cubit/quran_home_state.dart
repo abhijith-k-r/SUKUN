@@ -1,40 +1,61 @@
 import 'package:sukun/features/quran/models/bookmark_model.dart';
 import 'package:sukun/features/quran/models/juz_model.dart';
 import 'package:sukun/features/quran/models/reading_progress_model.dart';
-import 'package:sukun/features/quran/models/surah_model.dart';
+import 'package:sukun/features/quran/models/surahs_model.dart';
 
 class QuranHomeState {
   final ReadingProgress? lastReading;
-  final List<Surah> surahs;
+  final List<Chapter> surahs;
   final List<Juz> juz;
   final List<Bookmark> bookmarks;
-  final bool loading;
+  final bool isLoading;
   final int currentTabIndex; // 0=Surah,1=Juz,2=Bookmarks
+  final String errors;
+  final Chapter? selectedSurah;
+  // final List<Verse>? verses;
 
   QuranHomeState({
+    this.isLoading = true,
+    // this.verses,
     this.lastReading,
     this.surahs = const [],
     this.juz = const [],
     this.bookmarks = const [],
-    this.loading = true,
     this.currentTabIndex = 0,
+    this.errors = '',
+    this.selectedSurah,
   });
 
   QuranHomeState copyWith({
     ReadingProgress? lastReading,
-    List<Surah>? surahs,
+    List<Chapter>? surahs,
     List<Juz>? juz,
     List<Bookmark>? bookmarks,
-    bool? loading,
+    bool? isLoading,
     int? currentTabIndex,
+    String? errors,
   }) {
     return QuranHomeState(
       lastReading: lastReading ?? this.lastReading,
       surahs: surahs ?? this.surahs,
       juz: juz ?? this.juz,
       bookmarks: bookmarks ?? this.bookmarks,
-      loading: loading ?? this.loading,
+      isLoading: isLoading ?? this.isLoading,
       currentTabIndex: currentTabIndex ?? this.currentTabIndex,
+      errors: errors ?? this.errors,
     );
   }
 }
+
+class QuranHomeInitial extends QuranHomeState {}
+
+class QuranHomeLoaded extends QuranHomeState {
+  QuranHomeLoaded({
+    super.lastReading,
+    required super.surahs,
+    required super.juz,
+    required super.bookmarks,
+  }) : super (isLoading: false);
+}
+
+// SurahDetail states removed as they are now in surah_detail_state.dart

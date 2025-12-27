@@ -167,9 +167,19 @@ class _SurahContentPage extends StatelessWidget {
                       color: theme ? AppColors.black : AppColors.white,
                       child: Text(
                         'بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ',
-                        style: textTheme.headlineSmall?.copyWith(
-                          fontWeight: FontWeight.bold,
+                        style: TextStyle(
+                          fontFamily: 'UthmanTaha',
+                          fontSize: 28,
+                          fontWeight: FontWeight.w400,
+                          fontFeatures: [
+                            FontFeature('liga', 1), // Enable ligatures
+                            FontFeature(
+                              'clig',
+                              1,
+                            ), // Enable contextual ligatures
+                          ],
                         ),
+                        textAlign: TextAlign.center,
                         textDirection: TextDirection.rtl,
                       ),
                     ),
@@ -210,82 +220,81 @@ class _AyahCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final textTheme = Theme.of(context).textTheme;
-
+    // 🔥 ADD THIS DEBUG
+    debugPrint(
+      '🎨 RENDERING Ayah ${ayah.verseNumber}: Arabic="${ayah.text.length} chars", English="${ayah.translation.length} chars"',
+    );
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      // padding: const EdgeInsets.all(20),
-      // decoration: BoxDecoration(
-      //   color: Colors.white,
-      //   borderRadius: BorderRadius.circular(12),
-      //   boxShadow: [
-      //     BoxShadow(
-      //       color: Colors.black.withOpacity(0.03),
-      //       blurRadius: 10,
-      //       offset: const Offset(0, 2),
-      //     ),
-      //   ],
-      // ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          // Arabic Text Row
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            // mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              // Verse Number Badge
-              Container(
-                width: 36,
-                height: 36,
-                decoration: BoxDecoration(
-                  color: AppColors.primaryGreen.withOpacity(0.2),
-                  shape: BoxShape.circle,
-                  border: Border.all(
-                    color: AppColors.primaryGreen.withOpacity(0.4),
+
+      child: Padding(
+        padding: const EdgeInsets.only(left: 10, top: 20, right: 10),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            // Arabic Text Row
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              // mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                // Verse Number Badge
+                Container(
+                  width: 36,
+                  height: 36,
+                  decoration: BoxDecoration(
+                    color: AppColors.primaryGreen.withOpacity(0.2),
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: AppColors.primaryGreen.withOpacity(0.4),
+                    ),
                   ),
-                ),
-                child: Center(
-                  child: Text(
-                    arabicNumber,
-                    style: GoogleFonts.amiri(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                      color: const Color(0xFF17CF6A),
+                  child: Center(
+                    child: Text(
+                      arabicNumber,
+                      style: GoogleFonts.amiri(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: const Color(0xFF17CF6A),
+                      ),
                     ),
                   ),
                 ),
-              ),
-              const SizedBox(width: 16),
-              // Arabic Text
-              Expanded(
-                child: Text(
-                  ayah.translation,
-                  // style: GoogleFonts.amiri(
-                  //   fontSize: 26,
-                  //   height: 2.0,
-                  //   fontWeight: FontWeight.w500,
-                  // ),
-                  textAlign: TextAlign.right,
-                  textDirection: TextDirection.rtl,
+                const SizedBox(width: 16),
+                // !  Arabic Text
+                Expanded(
+                  child: Text(
+                    ayah.text.isNotEmpty ? ayah.text : "[NO ARABIC TEXT]",
+                    style: TextStyle(
+                      fontFamily: 'UthmanTaha',
+                      fontSize: 25,
+                      height: 2,
+                      fontWeight: FontWeight.w400,
+                      fontFeatures: [
+                        FontFeature('liga', 1), // Enable ligatures
+                        FontFeature('clig', 1), // Enable contextual ligatures
+                      ],
+                    ),
+                    textAlign: TextAlign.justify,
+                    textDirection: TextDirection.rtl,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            // Translation
+            Padding(
+              padding: const EdgeInsets.only(left: 52),
+              child: Text(
+                ayah.translation.isNotEmpty ? ayah.translation : "[NO ENGLISH]",
+                style: GoogleFonts.lexend(
+                  fontSize: 15,
+                  height: 1.6,
+                  color: Colors.grey[700],
                 ),
               ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          // Translation
-          Padding(
-            padding: const EdgeInsets.only(left: 52),
-            child: Text(
-              ayah.translation,
-              style: GoogleFonts.lexend(
-                fontSize: 15,
-                height: 1.6,
-                color: Colors.grey[700],
-              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

@@ -6,7 +6,7 @@ import 'package:sukun/features/quran/models/surahs_model.dart';
 class QuranHomeState {
   final ReadingProgress? lastReading;
   final List<Chapter> surahs;
-  final List<Juz> juz;
+  final List<JuzElement> juz;
   final List<Bookmark> bookmarks;
   final bool isLoading;
   final int currentTabIndex; // 0=Surah,1=Juz,2=Bookmarks
@@ -29,7 +29,7 @@ class QuranHomeState {
   QuranHomeState copyWith({
     ReadingProgress? lastReading,
     List<Chapter>? surahs,
-    List<Juz>? juz,
+    List<JuzElement>? juz,
     List<Bookmark>? bookmarks,
     bool? isLoading,
     int? currentTabIndex,
@@ -57,5 +57,11 @@ class QuranHomeLoaded extends QuranHomeState {
     required super.bookmarks,
   }) : super (isLoading: false);
 }
+
+class QuranHomeError extends QuranHomeState {
+  final String message;
+  QuranHomeError(this.message);
+}
+
 
 // SurahDetail states removed as they are now in surah_detail_state.dart

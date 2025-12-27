@@ -3,7 +3,6 @@ import 'package:sukun/features/quran/models/reading_progress_model.dart';
 
 import 'quran_repository.dart';
 
-
 class UserQuranRepositoryImpl implements UserQuranRepository {
   @override
   Future<ReadingProgress?> getLastReading(String userId) async {
@@ -14,13 +13,12 @@ class UserQuranRepositoryImpl implements UserQuranRepository {
   @override
   Future<List<Bookmark>> getBookmarks(String userId) async {
     // Implement logic
-    throw UnimplementedError('getBookmarks not implemented');
+    return [];
   }
 
   @override
   Future<void> saveProgress(String userId, ReadingProgress progress) async {
     // Implement logic
-    throw UnimplementedError('saveProgress not implemented');
   }
 
   @override

@@ -8,40 +8,74 @@ class BookmarkList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (bookmarks.isEmpty) {
-      return Center(
-        child: Padding(
-          padding: EdgeInsets.all(16),
-          child: Column(
-            children: [
-              Icon(
-                Icons.bookmark_border,
-                size: 64,
-                color: Colors.grey.shade400,
-              ),
-              const SizedBox(height: 16),
-              Text('No bookmarks yet'),
-            ],
-          ),
-        ),
-      );
-    }
+    // Always show the bookmark list UI, handle empty/null cases
+    final safeBookmarks = bookmarks.isNotEmpty ? bookmarks : <Bookmark>[];
 
-    return ListView.builder(
+    return ListView(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      itemCount: bookmarks.length,
-      itemBuilder: (context, index) {
-        final b = bookmarks[index];
-        return ListTile(
-          leading: const Icon(Icons.bookmark, color: Colors.amber),
-          title: Text('Surah ${b.surahNumber}, Ayah ${b.ayahNumber}'),
-          subtitle: Text(b.createdAt.toLocal().toString().split('.').first),
-          onTap: () {
-            // open reader at this ayah
-          },
-        );
-      },
+      children: [
+        if (safeBookmarks.isEmpty)
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.all(32.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.bookmark_border,
+                    size: 64,
+                    color: Colors.grey.shade400,
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    'No bookmarks yet',
+                    style: TextStyle(fontSize: 16, color: Colors.grey.shade600),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    'Bookmark verses to see them here',
+                    style: TextStyle(fontSize: 14, color: Colors.grey.shade500),
+                  ),
+                ],
+              ),
+            ),
+          )
+        else
+          ...safeBookmarks.asMap().entries.map((entry) {
+            try {
+              final index = entry.key;
+              final b = entry.value;
+              return Column(
+                children: [
+                  ListTile(
+                    leading: const Icon(Icons.bookmark, color: Colors.amber),
+                    title: Text('Surah ${b.surahNumber}, Ayah ${b.ayahNumber}'),
+                    subtitle: Text(
+                      b.createdAt.toLocal().toString().split('.').first,
+                    ),
+                    trailing: IconButton(
+                      icon: const Icon(Icons.delete_outline),
+                      onPressed: () {
+                        // TODO: Delete bookmark
+                      },
+                    ),
+                    onTap: () {
+                      // TODO: open reader at this ayah
+                    },
+                  ),
+                  if (index < safeBookmarks.length - 1)
+                    const Divider(height: 1),
+                ],
+              );
+            } catch (e) {
+              debugPrint(
+                'Error building bookmark item at index ${entry.key}: $e',
+              );
+              return const SizedBox.shrink();
+            }
+          }),
+      ],
     );
   }
 }

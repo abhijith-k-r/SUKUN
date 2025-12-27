@@ -5,9 +5,9 @@ import 'package:sukun/features/quran/models/surahs_model.dart';
 
 abstract class QuranRepository {
   Future<List<Chapter>> getSurahs();
-  Future<List<Juz>> getJuzList();
-    Future<List<Ayah>> getVerses(int chapterId);
-
+  Future<List<JuzElement>> getJuzList();
+  Future<List<Ayah>> getVerses(int chapterId);
+  Future<List<Ayah>> getVersesByJuz(int juzNumber);
 }
 
 abstract class UserQuranRepository {

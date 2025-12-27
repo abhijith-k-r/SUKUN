@@ -19,15 +19,15 @@ class QuranHomePage extends StatelessWidget {
     final r = Responsive(context);
     return BlocBuilder<QuranHomeCubit, QuranHomeState>(
       builder: (context, state) {
-        debugPrint('QuranHomePage State: $state'); // DEBUG PRINT
+        debugPrint('QuranHomePage State: $state');
         if (state.isLoading) {
           return const Center(child: CircularProgressIndicator());
         }
-        if (state.errors.isNotEmpty) {
+        if (state.errors.isNotEmpty || state is QuranHomeError) {
           return buildCustomNetworkIssue(r, state, context);
         }
 
-        if (state is QuranHomeLoaded) {
+        // if (state is QuranHomeLoaded) {
           return Scaffold(
             appBar: AppBar(
               title: Image.asset(
@@ -59,8 +59,8 @@ class QuranHomePage extends StatelessWidget {
               ),
             ),
           );
-        }
-        return const SizedBox();
+        // }
+        // return const SizedBox();
       },
     );
   }

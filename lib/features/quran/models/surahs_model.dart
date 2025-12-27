@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:flutter/widgets.dart';
+
 class Surahs {
   final List<Chapter> chapters;
 
@@ -108,10 +110,10 @@ class Chapter {
   };
 }
 
-enum RevelationPlace { mdinah, makkah }
+enum RevelationPlace { madinah, makkah }
 
 final revelationPlaceValues = EnumValues({
-  "madinah": RevelationPlace.mdinah,
+  "madinah": RevelationPlace.madinah,
   "makkah": RevelationPlace.makkah,
 });
 
@@ -143,9 +145,9 @@ class TranslatedName {
   };
 }
 
-enum LanguageName { enghlish }
+enum LanguageName { english }
 
-final languageNameValues = EnumValues({"english": LanguageName.enghlish});
+final languageNameValues = EnumValues({"english": LanguageName.english});
 
 class EnumValues<T> {
   Map<String, T> map;
@@ -174,41 +176,51 @@ class Ayah {
     required this.translation,
   });
 
-  // factory Ayah.fromJson(Map<String, dynamic> json) => Ayah(
-  //   id: json["id"],
-  //   verseNumber: json["verse_number"],
-  //   chapterId: json["chapter_id"],
-  //   text: json["text_uthmani"] ?? json["text"], // Adjust based on API
-  //   translation: json["translations"] != null && json["translations"].isNotEmpty
-  //       ? json["translations"][0]["text"]
-  //       : "Translation not available",
-  // );
-
   factory Ayah.fromJson(Map<String, dynamic> json) {
-    // Helper to safely parse int
     int parseInt(dynamic value) {
       if (value is int) return value;
       if (value is String) return int.tryParse(value) ?? 0;
       return 0;
     }
 
+    // Get Arabic text - prefer text_uthmani if available, otherwise use words array
+    String arabicText = "";
+
+    // First try to get text_uthmani (proper Uthmani script)
+    if (json["text_uthmani"] != null &&
+        json["text_uthmani"].toString().isNotEmpty) {
+      arabicText = json["text_uthmani"].toString();
+    }
+    // Fallback to words array if text_uthmani not available
+    else if (json["words"] != null && (json["words"] as List).isNotEmpty) {
+      // Join all word texts with spaces for proper rendering
+      arabicText = (json["words"] as List)
+          .map((word) => word["text"]?.toString().trim() ?? "")
+          .where((text) => text.isNotEmpty)
+          .join(" ");
+    }
+
+    // 🔥 FIXED: Get English from WORDS translations
+    String englishTranslation = "";
+    if (json["words"] != null && (json["words"] as List).isNotEmpty) {
+      englishTranslation = (json["words"] as List)
+          .map((word) => word["translation"]?["text"] ?? "")
+          .join(" ");
+    }
+
+    debugPrint(
+      '🔥 Ayah ${parseInt(json["verse_key"]?.toString().split(':').last)}: '
+      'Arabic="${arabicText.length} chars", English="${englishTranslation.length} chars"',
+    );
+
     return Ayah(
       id: parseInt(json["id"]),
       verseNumber: parseInt(
-        json["verse_key"].toString().split(':').last,
-      ), // Extract verse number from key like "1:1"
-      chapterId: parseInt(
-        json["chapter_id"],
-      ), // This might be missing in some endpoints
-      text:
-          json["text_uthmani"] ??
-          json["text_indopak"] ??
-          json["text_imlaei"] ??
-          "",
-      translation:
-          (json["translations"] != null && json["translations"].isNotEmpty)
-          ? json["translations"][0]["text"] ?? ""
-          : "",
+        json["verse_key"]?.toString().split(':').last ?? "1",
+      ),
+      chapterId: parseInt(json["chapter_id"] ?? 1),
+      text: arabicText,
+      translation: englishTranslation,
     );
   }
 }

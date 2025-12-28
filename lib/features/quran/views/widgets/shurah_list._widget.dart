@@ -23,18 +23,12 @@ class SurahList extends StatelessWidget {
               const SizedBox(height: 16),
               Text(
                 'No Surahs available',
-                style: TextStyle(
-                  color: Colors.grey.shade600,
-                  fontSize: 16,
-                ),
+                style: TextStyle(color: Colors.grey.shade600, fontSize: 16),
               ),
               const SizedBox(height: 8),
               Text(
                 'Loading...',
-                style: TextStyle(
-                  color: Colors.grey.shade500,
-                  fontSize: 14,
-                ),
+                style: TextStyle(color: Colors.grey.shade500, fontSize: 14),
               ),
             ],
           ),
@@ -60,11 +54,13 @@ class SurahList extends StatelessWidget {
               'The ${s.translatedName.name}   ',
               style: textTheme.bodySmall,
             ),
-            trailing: Column(
-              children: [
-                Text(s.nameArabic, style: textTheme.titleMedium),
-                Text('${s.versesCount} Ayahs', style: textTheme.titleMedium),
-              ],
+            trailing: SingleChildScrollView(
+              child: Column(
+                children: [
+                  Text(s.nameArabic, style: textTheme.titleMedium),
+                  Text('${s.versesCount} Ayahs', style: textTheme.bodySmall),
+                ],
+              ),
             ),
             onTap: () {
               // open surah screen

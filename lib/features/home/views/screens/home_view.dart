@@ -4,7 +4,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sukun/core/responsive/responsive.dart';
 import 'package:sukun/core/theme/app_colors.dart';
+import 'package:sukun/features/dikr_counter/view/screens/dhikr_counter_screen.dart';
 import 'package:sukun/features/home/views/widgets/carousel_image_widget.dart';
+import 'package:sukun/features/qibla/view/screens/qibla_screen.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
@@ -20,9 +22,9 @@ class HomeView extends StatelessWidget {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Image.asset('assets/sukun_logo.png', width: r.fieldWidth * 0.4),
-        backgroundColor: mode == Brightness.dark
-            ? AppColors.lighblackBg
-            : AppColors.lightBg,
+        // backgroundColor: mode == Brightness.dark
+        //     ? AppColors.lighblackBg
+        //     : AppColors.lightBg,
         actions: [
           IconButton(
             onPressed: () {},
@@ -120,7 +122,25 @@ class HomeView extends StatelessWidget {
                         icon: item.icon,
                         label: item.label,
                         isSoon: item.isSoon,
-                        onTap: () {},
+                        onTap: () {
+                          if (item.label == 'Dhikr Counter') {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => DhikrCounterScreen(),
+                              ),
+                            );
+                          }
+
+                          if (item.label == 'Qibla') {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => QiblaScreen(),
+                              ),
+                            );
+                          }
+                        },
                         r: r,
                         textTheme: textThem,
                       );

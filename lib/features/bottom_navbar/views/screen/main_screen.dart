@@ -30,7 +30,7 @@ class MainScreen extends StatelessWidget {
               },
               children: [
                 HomeView(),
-                QuranHomePage(),
+                QuranHomeScreen(),
                 PopularNews(),
                 Scaffold(
                   body: Center(

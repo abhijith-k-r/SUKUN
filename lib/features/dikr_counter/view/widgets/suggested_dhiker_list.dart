@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:sukun/core/responsive/responsive.dart';
 import 'package:sukun/core/theme/app_colors.dart';
@@ -55,14 +57,14 @@ class SuggestedDhikrList extends StatelessWidget {
     return GestureDetector(
       onTap: () => onDhikrSelected(dhikr),
       child: Container(
-        // constraints: BoxConstraints(
-        //   minWidth: 140,
-        //   maxWidth: MediaQuery.of(context).size.width * 0.45,
-        // ),
         margin: const EdgeInsets.only(right: 12),
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
-          color: mode ? AppColors.black : AppColors.white,
+          color: isSelected
+              ? AppColors.primaryGreen
+              : mode
+              ? AppColors.black
+              : AppColors.white,
           borderRadius: BorderRadius.circular(16),
           border: Border.all(color: AppColors.grey500),
           boxShadow: [

@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sukun/core/services/news_repository.dart';
 import 'package:sukun/core/services/qibla_repository.dart';
 import 'package:sukun/core/services/quran_rep_impl.dart';
 import 'package:sukun/core/services/quran_repository.dart';
 import 'package:sukun/core/services/quran_rop_impl.dart';
 import 'package:sukun/core/theme/app_theme.dart';
+import 'package:sukun/features/auth/view_models/cubit/auth_cubit.dart';
 import 'package:sukun/features/auth/views/screens/splash_screen.dart';
 import 'package:sukun/features/bottom_navbar/view_model/bloc/navbar_bloc.dart';
 import 'package:sukun/features/dikr_counter/view_model/bloc/dhikr_bloc.dart';
+import 'package:sukun/features/news/view_models/cubit/news_cubit.dart';
 import 'package:sukun/features/qibla/view_model/bloc/qibla_bloc.dart';
-import 'package:sukun/features/quran/view_models/cubit/quran_home_cubit.dart';
-
+import 'package:sukun/features/quran/view_models/cubit/reader_cubit.dart';
+import 'package:sukun/features/quran/view_models/quran_home_cubit/quran_home_cubit.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,7 +27,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final quranRepo = QuranRepositoryImplement();
     final userRepo = UserQuranRepositoryImpl();
-    final qiblaRepo =  QiblaRepository(); 
+    final qiblaRepo = QiblaRepository();
+    final newsRepo = NewsRepository();
     const String? userId = null;
 
     return MultiRepositoryProvider(
@@ -34,6 +38,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MultiBlocProvider(
         providers: [
+          BlocProvider<AuthCubit>(create: (context) => AuthCubit()),
           BlocProvider(
             create: (context) => QuranHomeCubit(
               quranRepo: context.read<QuranRepository>(),
@@ -43,7 +48,19 @@ class MyApp extends StatelessWidget {
           ),
           BlocProvider(create: (_) => NavbarBloc()),
           BlocProvider<DhikrBloc>(create: (context) => DhikrBloc()),
-          BlocProvider<QiblaBloc>(create: (context) => QiblaBloc(repository:qiblaRepo ),)
+          BlocProvider<QiblaBloc>(
+            create: (context) => QiblaBloc(repository: qiblaRepo),
+          ),
+          BlocProvider<NewsCubit>(
+            create: (context) => NewsCubit(newsRepo: newsRepo),
+          ),
+          BlocProvider<PageReaderCubit>  (
+            create: (context) => PageReaderCubit(
+              quranRepo: quranRepo,
+              userRepo: userRepo,
+              userId: userId,
+            ),
+          ),
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,

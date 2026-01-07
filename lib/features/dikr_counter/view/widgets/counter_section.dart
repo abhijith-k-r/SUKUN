@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:sukun/core/theme/app_colors.dart';
@@ -72,8 +74,14 @@ class CounterSection extends StatelessWidget {
                       Text(
                         '${selectedDhikr!.nameArabic} - ${selectedDhikr!.target}',
                         style: textThem.titleLarge?.copyWith(
-                          color: selectedDhikr!.target == counter
-                              ? AppColors.primaryGreen
+                          color: selectedDhikr != null
+                              ? (counter == selectedDhikr!.target
+                                    ? AppColors.primaryGreen
+                                    : (counter > selectedDhikr!.target + 10
+                                          ? AppColors.error
+                                          : (counter > selectedDhikr!.target
+                                                ? AppColors.accentYellow
+                                                : null)))
                               : null,
                         ),
                         textAlign: TextAlign.center,
@@ -96,10 +104,18 @@ class CounterSection extends StatelessWidget {
           children: [
             Text(
               counter.toString(),
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 96,
                 fontWeight: FontWeight.w800,
-                color: AppColors.primaryGreen,
+                color: selectedDhikr != null
+                    ? (counter == selectedDhikr!.target
+                          ? AppColors.primaryGreen
+                          : (counter > selectedDhikr!.target + 10
+                                ? AppColors.error
+                                : (counter > selectedDhikr!.target
+                                      ? AppColors.accentYellow
+                                      : null)))
+                    : null,
                 height: 1,
               ),
             ),
@@ -111,20 +127,24 @@ class CounterSection extends StatelessWidget {
                   vertical: 6,
                 ),
                 decoration: BoxDecoration(
-                  color: const Color(0xFFF2C238).withOpacity(0.1),
+                  color: AppColors.accentYellow.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Icon(Icons.timer, size: 16, color: Color(0xFFF2C238)),
+                    const Icon(
+                      Icons.timer,
+                      size: 16,
+                      color: AppColors.accentYellow,
+                    ),
                     const SizedBox(width: 4),
                     Text(
                       _formatTime(stopwatchSeconds),
                       style: const TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
-                        color: Color(0xFFF2C238),
+                        color: AppColors.accentYellow,
                       ),
                     ),
                   ],
@@ -166,14 +186,14 @@ class CounterSection extends StatelessWidget {
             child: const Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.touch_app, size: 48, color: Colors.white),
+                Icon(Icons.touch_app, size: 48, color: AppColors.white),
                 SizedBox(height: 8),
                 Text(
                   'TAP',
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
-                    color: Colors.white,
+                    color: AppColors.white,
                     letterSpacing: 2,
                   ),
                 ),

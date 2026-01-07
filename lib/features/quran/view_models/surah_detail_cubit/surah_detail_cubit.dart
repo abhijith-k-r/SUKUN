@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sukun/core/services/quran_repository.dart';
-import 'package:sukun/features/quran/view_models/cubit/surah_detail_state.dart';
+import 'package:sukun/features/quran/view_models/surah_detail_cubit/surah_detail_state.dart';
 
 class SurahDetailCubit extends Cubit<SurahDetailState> {
   final QuranRepository quranRepo;

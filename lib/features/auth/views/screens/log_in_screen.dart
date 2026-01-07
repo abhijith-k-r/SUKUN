@@ -41,7 +41,7 @@ class LogInScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   SizedBox(height: r.hLarge),
-               
+
                   Text(
                     'LOGIN NOW',
                     style: textTheme.headlineMedium?.copyWith(

@@ -2,11 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sukun/core/services/quran_repository.dart';
 import 'package:sukun/features/quran/models/bookmark_model.dart';
+import 'package:sukun/features/quran/models/surahs_model.dart';
 import 'package:sukun/features/quran/view_models/quran_home_cubit/quran_home_state.dart';
-
-// ============================================================================
-// QURAN HOME CUBIT
-// ============================================================================
 
 class QuranHomeCubit extends Cubit<QuranHomeState> {
   final QuranRepository quranRepo;
@@ -19,7 +16,7 @@ class QuranHomeCubit extends Cubit<QuranHomeState> {
     required this.userId,
   }) : super(QuranHomeState());
 
-  Future<void> loadData() async {  
+  Future<void> loadData() async {
     emit(state.copyWith(isLoading: true));
 
     try {
@@ -44,7 +41,7 @@ class QuranHomeCubit extends Cubit<QuranHomeState> {
         ),
       );
     } catch (e) {
-      emit(state.copyWith(isLoading: false, error: e.toString()));
+      // emit(state.copyWith(isLoading: false, error: e.toString()));
     }
   }
 
@@ -61,5 +58,36 @@ class QuranHomeCubit extends Cubit<QuranHomeState> {
     } catch (e) {
       debugPrint('Failed to refresh bookmarks: $e');
     }
+  }
+
+  void toggleSearch() {
+    emit(
+      state.copyWith(
+        isSearchActive: !state.isSearchActive,
+        searchQuery: '',
+        searchResults: [],
+      ),
+    );
+  }
+
+  void updateSearchQuery(String query) {
+    final results = _filterSurahs(query, state.surahs);
+    emit(state.copyWith(searchQuery: query, searchResults: results));
+  }
+
+  List<Chapter> _filterSurahs(String query, List<Chapter> allSurahs) {
+    if (query.isEmpty) return [];
+
+    return allSurahs.where((surah) {
+      return surah.nameSimple.toLowerCase().contains(query.toLowerCase()) ||
+          surah.nameArabic.contains(query) ||
+          surah.id.toString().contains(query);
+    }).toList();
+  }
+
+  void clearSearch() {
+    emit(
+      state.copyWith(isSearchActive: false, searchQuery: '', searchResults: []),
+    );
   }
 }

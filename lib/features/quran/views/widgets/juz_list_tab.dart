@@ -68,37 +68,11 @@ class _JuzListItem extends StatelessWidget {
   }
 
   int _getJuzStartPage(int juzNumber) {
+    // ✅ CORRECT STANDARD UTHMANI JUZ PAGE MAPPING
     const juzPageStarts = [
-      1,
-      22,
-      44,
-      60,
-      82,
-      102,
-      122,
-      142,
-      162,
-      179,
-      197,
-      215,
-      231,
-      248,
-      265,
-      280,
-      295,
-      310,
-      325,
-      337,
-      349,
-      360,
-      370,
-      381,
-      391,
-      402,
-      412,
-      422,
-      431,
-      441,
+      1, 22, 42, 60, 82, 102, 121, 142, 162, 182, // Juz 1-10
+      201, 222, 242, 262, 282, 302, 322, 342, 362, 382, // Juz 11-20
+      402, 422, 442, 462, 482, 502, 522, 542, 562, 582, // Juz 21-30
     ];
     return juzPageStarts[juzNumber.clamp(1, 30) - 1];
   }

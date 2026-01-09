@@ -49,6 +49,7 @@ dependencies:
   permission_handler: ^12.0.1
   url_launcher: ^6.3.2
   share_plus: ^12.0.1
+  just_audio: ^0.9.40
 
 dev_dependencies:
   flutter_test:

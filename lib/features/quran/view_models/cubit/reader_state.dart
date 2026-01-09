@@ -10,6 +10,7 @@ class PageReaderState {
   final Set<int> bookmarkedAyahs;
   final int? playingSurahNumber;
   final int? playingAyahNumber;
+  final bool isAudioPaused;
 
   PageReaderState({
     this.allPages = const [],
@@ -19,6 +20,7 @@ class PageReaderState {
     this.bookmarkedAyahs = const {},
     this.playingSurahNumber,
     this.playingAyahNumber,
+    this.isAudioPaused = false,
   });
 
   PageReaderState copyWith({
@@ -29,6 +31,8 @@ class PageReaderState {
     Set<int>? bookmarkedAyahs,
     int? playingSurahNumber,
     int? playingAyahNumber,
+    bool? isAudioPaused,
+    bool clearAudioState = false,
   }) {
     return PageReaderState(
       allPages: allPages ?? this.allPages,
@@ -36,8 +40,9 @@ class PageReaderState {
       isLoading: isLoading ?? this.isLoading,
       errorMessage: errorMessage ?? this.errorMessage,
       bookmarkedAyahs: bookmarkedAyahs ?? this.bookmarkedAyahs,
-      playingSurahNumber: playingSurahNumber ?? this.playingSurahNumber,
-      playingAyahNumber: playingAyahNumber ?? this.playingAyahNumber,
+      playingSurahNumber: clearAudioState ? null : (playingSurahNumber ?? this.playingSurahNumber),
+      playingAyahNumber: clearAudioState ? null : (playingAyahNumber ?? this.playingAyahNumber),
+      isAudioPaused: clearAudioState ? false : (isAudioPaused ?? this.isAudioPaused),
     );
   }
 }

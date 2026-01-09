@@ -39,10 +39,6 @@ class PageReaderScreen extends StatelessWidget {
   }
 }
 
-// ============================================================================
-// PAGE READER VIEW
-// ============================================================================
-
 class _PageReaderView extends StatelessWidget {
   const _PageReaderView();
 
@@ -80,10 +76,6 @@ class _PageReaderView extends StatelessWidget {
   }
 }
 
-// ============================================================================
-// PAGE VIEW READER - BULLETPROOF VERSION
-// ============================================================================
-
 class _PageViewReader extends StatefulWidget {
   const _PageViewReader();
 
@@ -92,42 +84,36 @@ class _PageViewReader extends StatefulWidget {
 }
 
 class _PageViewReaderState extends State<_PageViewReader> {
-  // ✅ SAFE: Always nullable, never 'late'
   PageController? _pageController;
 
   @override
   void initState() {
     super.initState();
-    // ✅ IMMEDIATE SAFE INITIALIZATION
     _pageController = PageController(initialPage: 0);
   }
 
   @override
   void dispose() {
-    // ✅ SAFE DISPOSE
     _pageController?.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context).brightness == Brightness.dark;
     return BlocConsumer<PageReaderCubit, PageReaderState>(
       listener: (context, state) {
-        // ✅ 100% SAFE CONTROLLER CHECK
         if (_pageController?.hasClients == true &&
             state.allPages.isNotEmpty &&
             state.currentPageIndex < state.allPages.length) {
-          final targetPage = state.currentPageIndex.clamp(
-            0,
-            state.allPages.length - 1,
-          );
-          if ((_pageController!.page?.round() ?? 0) != targetPage) {
+          final targetPage = state.currentPageIndex;
+          final currentPage = _pageController!.page?.round() ?? 0;
+          if (targetPage != currentPage) {
             _pageController!.jumpToPage(targetPage);
           }
         }
       },
       builder: (context, state) {
-        // ✅ LOADING SCREEN FIRST
         if (state.allPages.isEmpty) {
           return const Center(
             child: Column(
@@ -141,114 +127,105 @@ class _PageViewReaderState extends State<_PageViewReader> {
           );
         }
 
-        // ✅ SAFE PAGEVIEW - Controller ALWAYS exists
-        return PageView.builder(
-          controller: _pageController!, // ✅ SAFE - Always initialized
-          scrollDirection: Axis.horizontal,
-          reverse: true, // RTL Quran reading
-          itemCount: state.allPages.length + 1, // +1 for completion page
-          onPageChanged: (index) {
-            if (index >= state.allPages.length) {
-              // Reached the end - show completion dialog
-              WidgetsBinding.instance.addPostFrameCallback((_) {
-                _showCompletionDialog(context);
-              });
-              return;
-            }
-            // ✅ SAFE INDEX
-            context.read<PageReaderCubit>().onPageChanged(index);
-          },
-          itemBuilder: (context, index) {
-            if (index >= state.allPages.length) {
-              // Show completion page
-              return _buildCompletionPage(context);
-            }
-            final page = state.allPages[index];
-            return QuranPageCard(page: page);
-          },
-        );
-      },
-    );
-  }
-
-  void _showCompletionDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('🎉 Completion!'),
-        content: const Text(
-          'You have reached the end of this section. Great job!',
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: const Text('Continue Reading'),
-          ),
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop(); // Close dialog
-              Navigator.of(context).pop(); // Go back to list
-            },
-            child: const Text('Back to List'),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildCompletionPage(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-      decoration: BoxDecoration(
-        color: const Color(0xFFFAF8F3),
-        borderRadius: BorderRadius.circular(8),
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.black.withOpacity(0.1),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+        return Stack(
           children: [
-            const Icon(Icons.celebration, size: 64, color: Color(0xFF4A4A4A)),
-            const SizedBox(height: 16),
-            const Text(
-              '🎉 You\'ve completed this section!',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: Color(0xFF4A4A4A),
-              ),
-              textAlign: TextAlign.center,
+            PageView.builder(
+              controller: _pageController!,
+              scrollDirection: Axis.horizontal,
+              reverse: true,
+              itemCount: state.allPages.length,
+              onPageChanged: (index) {
+                context.read<PageReaderCubit>().onPageChanged(index);
+              },
+              itemBuilder: (context, index) {
+                if (index >= state.allPages.length) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+                final page = state.allPages[index];
+                return QuranPageCard(page: page);
+              },
             ),
-            const SizedBox(height: 8),
-            const Text(
-              'Great job on your Quran reading journey!',
-              style: TextStyle(fontSize: 16, color: Color(0xFF666666)),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 24),
-            ElevatedButton(
-              onPressed: () => Navigator.of(context).pop(),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF4A4A4A),
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 32,
-                  vertical: 12,
+
+            if (state.playingAyahNumber != null) ...[
+              Positioned(
+                bottom: 60,
+                left: 24,
+                right: 24,
+                child: Card(
+                  color: theme ? AppColors.lighblackBg : AppColors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  elevation: 8,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 8,
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Icon(Icons.music_note, size: 20),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: Text(
+                            'Ayah ${state.playingAyahNumber}',
+                            style: const TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        // 🔥 FIXED: Correct Play/Pause Icon Logic
+                        IconButton(
+                          icon: Icon(
+                            state.playingAyahNumber == null
+                                ? Icons.play_arrow_rounded
+                                : (state.isAudioPaused
+                                      ? Icons.play_arrow_rounded
+                                      : Icons.pause_rounded),
+                          ),
+                          onPressed: () {
+                            if (state.playingAyahNumber == null) {
+                              // No audio playing - show current page first ayah
+                              final currentPage =
+                                  state.allPages[state.currentPageIndex];
+                              if (currentPage.ayahs.isNotEmpty) {
+                                context.read<PageReaderCubit>().setPlayingAyah(
+                                  currentPage.ayahs.first.surahNumber,
+                                  currentPage.ayahs.first.ayahNumber,
+                                );
+                              }
+                            } else if (state.isAudioPaused) {
+                              context.read<PageReaderCubit>().resumeAudio();
+                            } else {
+                              context.read<PageReaderCubit>().pauseAudio();
+                            }
+                          },
+                        ),
+
+                        IconButton(
+                          icon: const Icon(Icons.skip_next_rounded),
+                          onPressed: () =>
+                              context.read<PageReaderCubit>().playNextAyah(),
+                        ),
+
+                        IconButton(
+                          icon: const Icon(
+                            Icons.stop_rounded,
+                            color: Colors.red,
+                          ),
+                          onPressed: () {
+                            // 🔥 CRITICAL: Force stop and clear state
+                            context.read<PageReaderCubit>().stopPlayback();
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
               ),
-              child: const Text(
-                'Back to List',
-                style: TextStyle(color: Colors.white),
-              ),
-            ),
+            ],
           ],
-        ),
-      ),
+        );
+      },
     );
   }
 }

@@ -1,9 +1,13 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:sukun/core/responsive/responsive.dart';
 import 'package:sukun/core/theme/app_colors.dart';
+import 'package:sukun/core/widgets/custom_snackbar_widgets.dart';
 import 'package:sukun/features/quran/models/page_model.dart';
 import 'package:sukun/features/quran/view_models/cubit/reader_cubit.dart';
 
@@ -19,16 +23,17 @@ class QuranPageCard extends StatefulWidget {
 class _QuranPageCardState extends State<QuranPageCard> {
   @override
   Widget build(BuildContext context) {
+    final r = Responsive(context);
     final theme = Theme.of(context).brightness == Brightness.dark;
 
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
-        color: theme ? AppColors.black : const Color(0xFFFAF8F3),
+        color: theme ? AppColors.black : AppColors.white,
         borderRadius: BorderRadius.circular(8),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: AppColors.black.withOpacity(0.1),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -36,10 +41,8 @@ class _QuranPageCardState extends State<QuranPageCard> {
       ),
       child: Column(
         children: [
-          // Header: Surah Name (Left) + Juz Number (Right)
           _buildHeader(theme),
 
-          // Main Content - Book Style
           Expanded(
             child: SingleChildScrollView(
               padding: const EdgeInsets.all(24),
@@ -61,7 +64,7 @@ class _QuranPageCardState extends State<QuranPageCard> {
             ),
           ),
 
-          // Footer: Page Number
+          SizedBox(height: r.w * 0.2),
           _buildFooter(),
         ],
       ),
@@ -75,26 +78,37 @@ class _QuranPageCardState extends State<QuranPageCard> {
         border: Border(bottom: BorderSide(color: Color(0xFFE0D5C7), width: 1)),
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            widget.page.surahRange,
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+          Expanded(
+            child: Text(
+              widget.page.surahRange,
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                fontWeight: FontWeight.w500,
+                fontSize: 14,
+              ),
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+            ),
           ),
+
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+            constraints: const BoxConstraints(maxWidth: 65),
             decoration: BoxDecoration(
-              color: AppColors.primaryGreen.withOpacity(0.2),
+              color: AppColors.primaryGreen.withOpacity(0.1),
               borderRadius: BorderRadius.circular(12),
             ),
             child: Text(
               "جُزْ ${_convertToArabicNumber(widget.page.juzNumber)}",
-              style: TextStyle(
-                fontSize: 14,
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
                 fontWeight: FontWeight.bold,
                 color: AppColors.primaryGreen,
+                fontSize: 12,
                 fontFamily: 'UthmanTaha',
               ),
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+              textAlign: TextAlign.center,
             ),
           ),
         ],
@@ -112,7 +126,7 @@ class _QuranPageCardState extends State<QuranPageCard> {
         fontFamily: 'UthmanTaha',
         fontWeight: FontWeight.w400,
         height: 2.0,
-        color: isDark ? AppColors.white : const Color(0xFF1A1A1A),
+        color: isDark ? AppColors.white : AppColors.black,
       ),
     );
   }
@@ -123,7 +137,6 @@ class _QuranPageCardState extends State<QuranPageCard> {
     for (int i = 0; i < widget.page.ayahs.length; i++) {
       final ayah = widget.page.ayahs[i];
 
-      // Add ayah number marker BEFORE text (Arabic style)
       spans.add(
         WidgetSpan(
           alignment: PlaceholderAlignment.middle,
@@ -150,7 +163,7 @@ class _QuranPageCardState extends State<QuranPageCard> {
                   style: TextStyle(
                     fontSize: 12,
                     fontFamily: 'UthmanTaha',
-                    color: isDark ? AppColors.white : const Color(0xFF1A1A1A),
+                    color: isDark ? AppColors.white : AppColors.black,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -160,10 +173,8 @@ class _QuranPageCardState extends State<QuranPageCard> {
         ),
       );
 
-      // Add small space after number
       spans.add(const TextSpan(text: ' '));
 
-      // Add ayah text with long press gesture
       spans.add(
         TextSpan(
           text: ayah.text,
@@ -172,16 +183,17 @@ class _QuranPageCardState extends State<QuranPageCard> {
             fontFamily: 'UthmanTaha',
             fontWeight: FontWeight.w400,
             height: 2.0,
-            color: isDark ? AppColors.white : const Color(0xFF1A1A1A),
+            color: isDark ? AppColors.white : AppColors.black,
           ),
           recognizer: LongPressGestureRecognizer()
             ..onLongPress = () {
-              _showAyahActions(context, ayah);
+              if (mounted) {
+                _showAyahActions(context, ayah);
+              }
             },
         ),
       );
 
-      // Add space between ayahs
       if (i < widget.page.ayahs.length - 1) {
         spans.add(const TextSpan(text: ' '));
       }
@@ -214,15 +226,22 @@ class _QuranPageCardState extends State<QuranPageCard> {
         border: Border(top: BorderSide(color: Color(0xFFE0D5C7), width: 1)),
       ),
       child: Center(
-        child: Text(
-          _convertToArabicNumber(widget.page.pageNumber),
-          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+        child: Column(
+          children: [
+            Text(
+              '${_convertToArabicNumber(widget.page.pageNumber)}  ',
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+            ),
+            Text('${widget.page.pageNumber} /604'),
+          ],
         ),
       ),
     );
   }
 
   void _showAyahActions(BuildContext context, AyahData ayah) {
+    final cubit = context.read<PageReaderCubit>();
+
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -247,7 +266,6 @@ class _QuranPageCardState extends State<QuranPageCard> {
                 ),
               ),
 
-              // ✅ Ayah Preview (ENGLISH)
               Container(
                 width: double.infinity,
                 padding: const EdgeInsets.all(20),
@@ -277,7 +295,6 @@ class _QuranPageCardState extends State<QuranPageCard> {
                 ),
               ),
 
-              // ✅ Action Buttons (ENGLISH)
               Padding(
                 padding: const EdgeInsets.all(20),
                 child: Column(
@@ -309,7 +326,10 @@ class _QuranPageCardState extends State<QuranPageCard> {
                             icon: Icons.play_arrow,
                             label: 'Play',
                             onTap: () {
-                              _handlePlay(context, ayah);
+                              cubit.setPlayingAyah(
+                                ayah.surahNumber,
+                                ayah.ayahNumber,
+                              );
                               Navigator.pop(context);
                             },
                           ),
@@ -320,8 +340,20 @@ class _QuranPageCardState extends State<QuranPageCard> {
                             icon: Icons.bookmark,
                             label: 'Bookmark',
                             onTap: () {
-                              _handleBookmark(context, ayah);
+                              cubit.toggleBookmark(
+                                ayah.ayahNumber,
+                                ayah.surahNumber,
+                                ayah.ayahNumberInSurah,
+                                ayah.surahName,
+                                ayah.text,
+                              );
                               Navigator.pop(context);
+                              customSnackBar(
+                                context,
+                                'Ayah bookmarked successfully',
+                                Icons.done,
+                                AppColors.primaryGreen,
+                              );
                             },
                           ),
                         ),
@@ -337,39 +369,23 @@ class _QuranPageCardState extends State<QuranPageCard> {
     );
   }
 
-  void _handlePlay(BuildContext context, AyahData ayah) {
-    context.read<PageReaderCubit>().setPlayingAyah(
-      ayah.surahNumber,
-      ayah.ayahNumber,
-    );
-  }
-
-  void _handleBookmark(BuildContext context, AyahData ayah) {
-    context.read<PageReaderCubit>().toggleBookmark(
-      ayah.ayahNumber,
-      ayah.surahNumber,
-      ayah.ayahNumberInSurah,
-      ayah.surahName,
-      ayah.text,
-    );
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Ayah bookmarked successfully')),
-    );
-  }
-
   void _copyAyah(BuildContext context, AyahData ayah) {
     final textToCopy =
         '${ayah.text}\n\n(Surah ${ayah.surahName} - Ayah ${_convertToArabicNumber(ayah.ayahNumberInSurah)})';
     Clipboard.setData(ClipboardData(text: textToCopy));
     Navigator.pop(context);
-    ScaffoldMessenger.of(
+    customSnackBar(
       context,
-    ).showSnackBar(const SnackBar(content: Text('Copied successfully')));
+      'Copied successfully',
+      Icons.done,
+      AppColors.primaryGreen,
+    );
   }
 
   void _shareAyah(BuildContext context, AyahData ayah) {
+    const String appLink = "https://sukunweb.com/";
     final textToShare =
-        '${ayah.text}\n\n(Surah ${ayah.surahName} - Ayah ${_convertToArabicNumber(ayah.ayahNumberInSurah)})';
+        "${ayah.text}\n\n(Surah ${ayah.surahName} - Ayah ${_convertToArabicNumber(ayah.ayahNumberInSurah)})\n\nRead more on Sukun: $appLink";
     Share.share(textToShare);
     Navigator.pop(context);
   }

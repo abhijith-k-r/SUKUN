@@ -3,10 +3,6 @@ import 'package:sukun/features/quran/models/bookmark_model.dart';
 import 'package:sukun/features/quran/models/surahs_model.dart';
 import 'package:sukun/features/quran/views/screens/reader_screen.dart';
 
-// ============================================================================
-// BOOKMARK LIST TAB
-// Shows bookmarked Ayahs with preview
-// ============================================================================
 
 class BookmarkListTab extends StatelessWidget {
   final List<Bookmark> bookmarks;
@@ -63,11 +59,7 @@ class BookmarkListTab extends StatelessWidget {
   }
 }
 
-// ============================================================================
-// BOOKMARK LIST ITEM
-// Shows: Surah name, Ayah number, and text preview
-// Taps open Reader and scroll to that Ayah
-// ============================================================================
+
 
 class _BookmarkListItem extends StatelessWidget {
   final Bookmark bookmark;
@@ -85,7 +77,6 @@ class _BookmarkListItem extends StatelessWidget {
           MaterialPageRoute(
             builder: (context) => PageReaderScreen(
               initialSurahNumber: bookmark.surahNumber,
-              // TODO: Add scrollToAyah parameter if you want to scroll to specific Ayah
             ),
           ),
         );

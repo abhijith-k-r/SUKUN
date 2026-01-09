@@ -25,6 +25,7 @@
     </queries>
 
     <application
+        android:usesCleartextTraffic="true"
         android:enableOnBackInvokedCallback="true"
         android:label="Sukun"
         android:name="${applicationName}"

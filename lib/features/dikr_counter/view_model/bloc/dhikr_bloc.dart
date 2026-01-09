@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sukun/features/dikr_counter/model/dhikr_model.dart';
 import 'dhikr_event.dart';
@@ -18,16 +19,20 @@ class DhikrBloc extends Bloc<DhikrEvent, DhikrState> {
             nameEnglish: 'SubhanAllah wa Bihamdihi',
             target: 33,
           ),
-          counter: 33,
-          isStopwatchActive: true,
-          stopwatchSeconds: 45,
+          counter: 0,
+          showStopwatch: false,
+          isTimerRunning: false,
+          stopwatchSeconds: 0,
+          targetEnabled: false,
+          hapticEnabled: true,
         ),
       ) {
     on<SelectDhikr>(_onSelectDhikr);
     on<IncrementCounter>(_onIncrementCounter);
+    on<ToggleShowStopwatch>(_onToggleShowStopwatch);
+    on<ToggleTimer>(_onToggleTimer);
     on<ResetCounter>(_onResetCounter);
     on<ClearSelection>(_onClearSelection);
-    on<ToggleStopwatch>(_onToggleStopwatch);
     on<UpdateStopwatch>(_onUpdateStopwatch);
     on<SaveProgress>(_onSaveProgress);
     on<ToggleTarget>(_onToggleTarget);
@@ -92,12 +97,41 @@ class DhikrBloc extends Bloc<DhikrEvent, DhikrState> {
     ];
   }
 
+  void _onToggleShowStopwatch(
+    ToggleShowStopwatch event,
+    Emitter<DhikrState> emit,
+  ) {
+    if (state.showStopwatch) {
+
+      emit(
+        state.copyWith(
+          showStopwatch: false,
+          isTimerRunning: false,
+          stopwatchSeconds: 0,
+        ),
+      );
+    } else {
+      emit(state.copyWith(showStopwatch: true));
+    }
+  }
+
+  void _onToggleTimer(ToggleTimer event, Emitter<DhikrState> emit) {
+    emit(state.copyWith(isTimerRunning: !state.isTimerRunning));
+  }
+
   void _startStopwatchTimer() {
     _stopwatchTimer?.cancel();
     _stopwatchTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      if (state.isStopwatchActive) {
-        add(UpdateStopwatch());
+      if (!state.isTimerRunning) return;
+
+      if (state.targetEnabled &&
+          state.selectedDhikr != null &&
+          state.counter >= state.selectedDhikr!.target) {
+        add(ToggleTimer()); 
+        return;
       }
+
+      add(UpdateStopwatch());
     });
   }
 
@@ -112,23 +146,51 @@ class DhikrBloc extends Bloc<DhikrEvent, DhikrState> {
   }
 
   void _onIncrementCounter(IncrementCounter event, Emitter<DhikrState> emit) {
-    emit(state.copyWith(counter: state.counter + 1));
+    if (state.targetEnabled &&
+        state.selectedDhikr != null &&
+        state.counter >= state.selectedDhikr!.target) {
+
+      emit(state.copyWith(isTimerRunning: false));
+
+    }
+
+    bool shouldStartTimer =
+        state.showStopwatch && state.counter == 0 && !state.isTimerRunning;
+
+    bool newTimerState =
+        state.isTimerRunning || (shouldStartTimer && state.showStopwatch);
+
+ 
+    if (state.targetEnabled &&
+        state.selectedDhikr != null &&
+        (state.counter + 1) >= state.selectedDhikr!.target) {
+       newTimerState = false;
+    }
+
+    emit(
+      state.copyWith(
+        counter: state.counter + 1,
+        isTimerRunning: newTimerState,
+      ),
+    );
   }
 
   void _onResetCounter(ResetCounter event, Emitter<DhikrState> emit) {
-    emit(state.copyWith(counter: 0, stopwatchSeconds: 0));
+    emit(
+      state.copyWith(
+        counter: 0,
+        stopwatchSeconds: 0,
+        isTimerRunning: false, 
+      ),
+    );
   }
 
   void _onClearSelection(ClearSelection event, Emitter<DhikrState> emit) {
     emit(state.copyWith(clearSelection: true, counter: 0, stopwatchSeconds: 0));
   }
 
-  void _onToggleStopwatch(ToggleStopwatch event, Emitter<DhikrState> emit) {
-    emit(state.copyWith(isStopwatchActive: !state.isStopwatchActive));
-  }
-
   void _onUpdateStopwatch(UpdateStopwatch event, Emitter<DhikrState> emit) {
-    if (state.isStopwatchActive) {
+    if (state.isTimerRunning) {
       emit(state.copyWith(stopwatchSeconds: state.stopwatchSeconds + 1));
     }
   }
@@ -161,7 +223,12 @@ class DhikrBloc extends Bloc<DhikrEvent, DhikrState> {
   }
 
   void _onToggleHaptic(ToggleHaptic event, Emitter<DhikrState> emit) {
-    emit(state.copyWith(hapticEnabled: !state.hapticEnabled));
+    final newEnabled = !state.hapticEnabled;
+    emit(state.copyWith(hapticEnabled: newEnabled));
+
+    if (newEnabled) {
+      HapticFeedback.mediumImpact();
+    }
   }
 
   @override

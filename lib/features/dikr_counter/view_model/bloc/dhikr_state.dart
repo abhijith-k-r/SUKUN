@@ -4,7 +4,8 @@ import 'package:sukun/features/dikr_counter/model/dhikr_model.dart';
 class DhikrState extends Equatable {
   final Dhikr? selectedDhikr;
   final int counter;
-  final bool isStopwatchActive;
+   final bool showStopwatch; 
+  final bool isTimerRunning;
   final int stopwatchSeconds;
   final bool targetEnabled;
   final bool hapticEnabled;
@@ -14,7 +15,8 @@ class DhikrState extends Equatable {
   const DhikrState({
     this.selectedDhikr,
     this.counter = 0,
-    this.isStopwatchActive = false,
+    this.showStopwatch = false, 
+    this.isTimerRunning = false, 
     this.stopwatchSeconds = 0,
     this.targetEnabled = false,
     this.hapticEnabled = false,
@@ -26,7 +28,8 @@ class DhikrState extends Equatable {
     Dhikr? selectedDhikr,
     bool clearSelection = false,
     int? counter,
-    bool? isStopwatchActive,
+    bool? showStopwatch,
+    bool? isTimerRunning,
     int? stopwatchSeconds,
     bool? targetEnabled,
     bool? hapticEnabled,
@@ -38,20 +41,22 @@ class DhikrState extends Equatable {
           ? null
           : selectedDhikr ?? this.selectedDhikr,
       counter: counter ?? this.counter,
-      isStopwatchActive: isStopwatchActive ?? this.isStopwatchActive,
+      showStopwatch: showStopwatch ?? this.showStopwatch,
+      isTimerRunning: isTimerRunning ?? this.isTimerRunning,
       stopwatchSeconds: stopwatchSeconds ?? this.stopwatchSeconds,
       targetEnabled: targetEnabled ?? this.targetEnabled,
       hapticEnabled: hapticEnabled ?? this.hapticEnabled,
       suggestedDhikrs: suggestedDhikrs ?? this.suggestedDhikrs,
       savedSessions: savedSessions ?? this.savedSessions,
     );
-  }
+  } 
 
   @override
   List<Object?> get props => [
     selectedDhikr,
     counter,
-    isStopwatchActive,
+   showStopwatch,
+    isTimerRunning, 
     stopwatchSeconds,
     targetEnabled,
     hapticEnabled,

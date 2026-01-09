@@ -73,7 +73,7 @@ class SuggestedDhikrList extends StatelessWidget {
               blurRadius: 10,
               offset: const Offset(0, 2),
             ),
-          ],
+          ], 
         ),
         child: SingleChildScrollView(
           child: Column(

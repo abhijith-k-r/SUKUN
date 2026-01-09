@@ -16,14 +16,14 @@ class SelectDhikr extends DhikrEvent {
   @override
   List<Object?> get props => [dhikr];
 }
-
+ 
 class IncrementCounter extends DhikrEvent {}
 
 class ResetCounter extends DhikrEvent {}
 
 class ClearSelection extends DhikrEvent {}
 
-class ToggleStopwatch extends DhikrEvent {}
+// class ToggleStopwatch extends DhikrEvent {}
 
 class UpdateStopwatch extends DhikrEvent {}
 
@@ -32,3 +32,9 @@ class SaveProgress extends DhikrEvent {}
 class ToggleTarget extends DhikrEvent {}
 
 class ToggleHaptic extends DhikrEvent {}
+
+class GoalReached extends DhikrEvent {}
+
+class ToggleShowStopwatch extends DhikrEvent {}
+
+class ToggleTimer extends DhikrEvent {}

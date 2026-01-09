@@ -32,7 +32,8 @@ class DhikrCounterScreen extends StatelessWidget {
                       selectedDhikr: state.selectedDhikr,
                       counter: state.counter,
                       stopwatchSeconds: state.stopwatchSeconds,
-                      isStopwatchActive: state.isStopwatchActive,
+                      isStopwatchActive: state.showStopwatch,
+                      isTimerRunning: state.isTimerRunning,
                       targetEnabled: state.targetEnabled,
                       hapticEnabled: state.hapticEnabled,
                       onTap: () =>
@@ -48,7 +49,9 @@ class DhikrCounterScreen extends StatelessWidget {
                       onToggleHaptic: () =>
                           context.read<DhikrBloc>().add(ToggleHaptic()),
                       onToggleStopwatch: () =>
-                          context.read<DhikrBloc>().add(ToggleStopwatch()),
+                          context.read<DhikrBloc>().add(ToggleShowStopwatch()),
+                          onToggleTimer: () =>
+                          context.read<DhikrBloc>().add(ToggleTimer()),
                     ),
                     const SizedBox(height: 32),
                     SuggestedDhikrList(
@@ -70,3 +73,4 @@ class DhikrCounterScreen extends StatelessWidget {
     );
   }
 }
+ 

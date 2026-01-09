@@ -98,7 +98,7 @@ class SavedSessionsList extends StatelessWidget {
                       ? AppColors.primaryGreen
                       : AppColors.grey500,
                 ),
-              ),
+              ), 
               if (session.goalMet) ...[
                 const SizedBox(height: 2),
                 Row(

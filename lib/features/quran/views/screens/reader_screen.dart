@@ -1,5 +1,4 @@
 // ignore_for_file: deprecated_member_use
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sukun/core/services/quran_repository.dart';
@@ -25,7 +24,6 @@ class PageReaderScreen extends StatelessWidget {
           userId: context.read<AuthCubit>().state.user?.id,
         );
 
-        // ✅ IMMEDIATE LOAD - No postFrameCallback needed
         if (initialJuz != null) {
           cubit.loadQuranContent(initialJuz: initialJuz);
         } else {
@@ -213,8 +211,7 @@ class _PageViewReaderState extends State<_PageViewReader> {
                             color: Colors.red,
                           ),
                           onPressed: () {
-                            // 🔥 CRITICAL: Force stop and clear state
-                            context.read<PageReaderCubit>().stopPlayback();
+                              context.read<PageReaderCubit>().stopPlayback();
                           },
                         ),
                       ],

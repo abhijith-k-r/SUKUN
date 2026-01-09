@@ -4,12 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:sukun/core/theme/app_colors.dart';
 import 'package:sukun/features/dikr_counter/model/dhikr_model.dart';
+import 'package:sukun/features/dikr_counter/view/widgets/action_controls.dart';
+import 'package:sukun/features/dikr_counter/view/widgets/builstopwatch_toggle.dart';
+import 'package:sukun/features/dikr_counter/view/widgets/goalreached_dialog.dart';
+import 'package:sukun/features/dikr_counter/view/widgets/quick_toggle_container.dart';
 
 class CounterSection extends StatelessWidget {
   final Dhikr? selectedDhikr;
   final int counter;
   final int stopwatchSeconds;
   final bool isStopwatchActive;
+  final bool isTimerRunning;
   final bool targetEnabled;
   final bool hapticEnabled;
   final VoidCallback onTap;
@@ -19,6 +24,7 @@ class CounterSection extends StatelessWidget {
   final VoidCallback onToggleTarget;
   final VoidCallback onToggleHaptic;
   final VoidCallback onToggleStopwatch;
+  final VoidCallback onToggleTimer;
 
   const CounterSection({
     super.key,
@@ -35,6 +41,8 @@ class CounterSection extends StatelessWidget {
     required this.onToggleTarget,
     required this.onToggleHaptic,
     required this.onToggleStopwatch,
+    required this.onToggleTimer,
+    required this.isTimerRunning,
   });
 
   String _formatTime(int seconds) {
@@ -133,6 +141,8 @@ class CounterSection extends StatelessWidget {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
+                    buildStopwatchToggle(onToggleTimer, isTimerRunning),
+                    const SizedBox(width: 8),
                     const Icon(
                       Icons.timer,
                       size: 16,
@@ -156,12 +166,23 @@ class CounterSection extends StatelessWidget {
 
         const SizedBox(height: 32),
 
-        // Main Tap Button
+        //!  Main Tap Button
         GestureDetector(
           onTap: () {
             if (hapticEnabled) {
-              HapticFeedback.lightImpact();
+              HapticFeedback.selectionClick();
+              Future.delayed(const Duration(milliseconds: 50), () {
+                HapticFeedback.lightImpact();
+              });
             }
+
+            if (targetEnabled &&
+                selectedDhikr != null &&
+                counter >= selectedDhikr!.target) {
+              showGoalReachedDialog(context, selectedDhikr);
+              return;
+            }
+
             onTap();
           },
           child: Container(
@@ -204,117 +225,22 @@ class CounterSection extends StatelessWidget {
 
         const SizedBox(height: 32),
 
-        // Action Controls
-        Row(
-          children: [
-            Expanded(
-              child: ElevatedButton.icon(
-                onPressed: onReset,
-                icon: const Icon(Icons.restart_alt, size: 20),
-                label: const Text('Reset'),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: mode ? AppColors.black : AppColors.white,
-                  foregroundColor: mode ? AppColors.white : Colors.grey[700],
-                  elevation: 0,
-                  padding: const EdgeInsets.symmetric(vertical: 12),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: ElevatedButton.icon(
-                onPressed: onSave,
-                icon: const Icon(Icons.save, size: 20),
-                label: const Text('Save Progress'),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.accentYellow,
-                  foregroundColor: AppColors.white,
-                  elevation: 2,
-                  padding: const EdgeInsets.symmetric(vertical: 12),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
+        //!  Action Controls
+        actionControls(context, mode, onReset, onSave, counter, selectedDhikr),
 
         const SizedBox(height: 24),
 
-        // Quick Toggles
-        Container(
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: mode ? AppColors.black : AppColors.white,
-            borderRadius: BorderRadius.circular(16),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              _buildToggle('Target', targetEnabled, onToggleTarget),
-              Container(width: 1, height: 32, color: Colors.grey[200]),
-              _buildToggle('Haptic', hapticEnabled, onToggleHaptic),
-              Container(width: 1, height: 32, color: Colors.grey[200]),
-              _buildToggle('Stopwatch', isStopwatchActive, onToggleStopwatch),
-            ],
-          ),
+        // ! Quick Toggles
+        qiuckToggleContainer(
+          mode,
+          targetEnabled,
+          onToggleTarget,
+          hapticEnabled,
+          onToggleHaptic,
+          isStopwatchActive,
+          onToggleStopwatch,
         ),
       ],
-    );
-  }
-
-  Widget _buildToggle(String label, bool isEnabled, VoidCallback onToggle) {
-    return GestureDetector(
-      onTap: onToggle,
-      child: Column(
-        children: [
-          AnimatedContainer(
-            duration: const Duration(milliseconds: 200),
-            width: 40,
-            height: 24,
-            decoration: BoxDecoration(
-              color: isEnabled ? AppColors.primaryGreen : AppColors.grey500,
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: AnimatedAlign(
-              duration: const Duration(milliseconds: 200),
-              alignment: isEnabled
-                  ? Alignment.centerRight
-                  : Alignment.centerLeft,
-              child: Container(
-                width: 16,
-                height: 16,
-                margin: const EdgeInsets.symmetric(horizontal: 4),
-                decoration: const BoxDecoration(
-                  color: AppColors.white,
-                  shape: BoxShape.circle,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black12,
-                      blurRadius: 4,
-                      offset: Offset(0, 2),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            label,
-            style: TextStyle(
-              fontSize: 10,
-              fontWeight: FontWeight.bold,
-              color: Colors.grey[500],
-              letterSpacing: 0.5,
-            ),
-          ),
-        ],
-      ),
     );
   }
 }
